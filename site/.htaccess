@@ -10,12 +10,21 @@ RedirectMatch 301 ^/proyectos/viaconextahub\.html$ /#viaconextahub
 RedirectMatch 301 ^/proyectos/citras\.html$ /#citras
 RedirectMatch 301 ^/proyectos/teidetravel\.html$ /#teidetravel
 RedirectMatch 301 ^/proyectos/web-hosting\.html$ /#web
-# tipos y caché
+# tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|png|svg|webp|jpg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType image/svg+xml "access plus 30 days"
-  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
 </IfModule>

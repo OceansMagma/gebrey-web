@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Construye el sitio GEBREY: dist/ (para el servidor) y preview/ (para la vista previa como artifact).
 Una sola página con los proyectos, más el aviso legal."""
-import os, shutil, html, datetime
+import os, shutil, html, datetime, hashlib
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "src")
@@ -114,6 +114,12 @@ PROJECTS = [
 </div>'''),
 ]
 
+def v(rel):
+    """Huella del contenido de un asset (src/assets/...) para romper la caché cuando cambia."""
+    path = os.path.join(SRC, rel)
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()[:10]
+
 def letters(text, cls="l"):
     """Cada carácter en un span (para animarlos uno a uno). Los espacios se marcan."""
     out = []
@@ -132,11 +138,11 @@ def head(title, desc, canonical, css_rel, extra="", preview=False):
             + f'<meta property="og:title" content="{html.escape(title, quote=True)}">'
             + f'<meta property="og:description" content="{html.escape(desc, quote=True)}">'
             + f'<meta property="og:type" content="website"><meta property="og:url" content="{canonical}">'
-            + f'<meta property="og:image" content="{SITE}/assets/img/og.png"><meta name="twitter:card" content="summary_large_image">'
+            + f'<meta property="og:image" content="{SITE}/assets/img/og.png?v={v("assets/img/og.png")}"><meta name="twitter:card" content="summary_large_image">'
             + '<meta name="theme-color" content="#14100e" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#efe3cf" media="(prefers-color-scheme: light)">'
             + f'<link rel="icon" href="{FAVICON}">'
             + FONTS
-            + f'<link rel="stylesheet" href="{css_rel}">'
+            + f'<link rel="stylesheet" href="{css_rel}?v={v("assets/css/site.css")}">'
             + '<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion");</script>'
             + extra)
     if preview:
@@ -154,9 +160,9 @@ def header(home):
             f'</div></header>')
 
 def scripts(rel, reel=False):
-    s = f'<script src="{rel}assets/js/site.js" defer></script>'
+    s = f'<script src="{rel}assets/js/site.js?v={v("assets/js/site.js")}" defer></script>'
     if reel:
-        s += f'<script src="{rel}assets/js/reel.js" defer></script>'
+        s += f'<script src="{rel}assets/js/reel.js?v={v("assets/js/reel.js")}" defer></script>'
     return s
 
 # ---------- índice ----------
@@ -298,14 +304,23 @@ RedirectMatch 301 ^/proyectos/viaconextahub\\.html$ /#viaconextahub
 RedirectMatch 301 ^/proyectos/citras\\.html$ /#citras
 RedirectMatch 301 ^/proyectos/teidetravel\\.html$ /#teidetravel
 RedirectMatch 301 ^/proyectos/web-hosting\\.html$ /#web
-# tipos y caché
+# tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt
+<IfModule mod_headers.c>
+  <FilesMatch "\\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\\.(css|js|png|svg|webp|jpg)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType image/svg+xml "access plus 30 days"
-  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
 </IfModule>
 """
 
