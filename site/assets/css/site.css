@@ -115,6 +115,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .skip:focus { transform: none; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
 
 /* ---------- cabecera: sin barra; una veladura y los dos enlaces ---------- */
 .top {
@@ -372,6 +373,47 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 .end-foot { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; color: var(--ink-3); font-size: .9rem; margin-top: clamp(1rem, 6vh, 4rem); }
 .end-foot a { color: var(--ink-3); text-decoration-color: var(--line); }
 .end-foot a:hover { color: var(--ink); }
+
+/* ---------- pedir presupuesto: una frase con huecos, en la tipografía de los títulos ---------- */
+html:has(dialog.quote[open]) { overflow: hidden; }
+.quote { border: 0; padding: 0; margin: auto; background: transparent; color: var(--ink); width: min(100% - 2 * var(--gutter), 900px); max-height: calc(100dvh - 2rem); overflow: visible; }
+.quote::backdrop { background: color-mix(in oklab, var(--bg) 72%, transparent); backdrop-filter: blur(10px); }
+.quote .q-in { position: relative; background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: clamp(1.3rem, 3.5vw, 2.4rem); max-height: calc(100dvh - 2rem); overflow: auto; box-shadow: 0 40px 100px -40px rgba(0, 0, 0, .7); }
+html.motion .quote[open] .q-in { animation: q-in .55s var(--ease-out); }
+@keyframes q-in { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
+.q-close { position: absolute; right: 1rem; top: 1rem; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line-strong); color: var(--ink-2); display: grid; place-items: center; font-size: 1.3rem; line-height: 1; }
+.q-close:hover { color: var(--ink); border-color: var(--c-web); }
+.q-kicker { color: var(--c-web); font-weight: 500; font-size: var(--fs-1); margin-bottom: .7rem; }
+.q-form { display: grid; gap: .7rem; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.25rem, 1rem + 1vw, 1.8rem); line-height: 1.55; letter-spacing: -0.015em; }
+.q-line { display: flex; flex-wrap: wrap; gap: .2em .35em; align-items: baseline; margin: 0; }
+.q-line label, .q-line span { white-space: nowrap; }
+.q-form input[type="text"], .q-form input[type="email"] {
+  font: inherit; color: var(--ink); background: transparent; border: 0; border-bottom: 2px solid var(--line-strong);
+  border-radius: 0; padding: 0 .15em; min-width: 5ch; max-width: 100%; outline: none; field-sizing: content;
+  transition: border-color .2s;
+}
+.q-form input[type="text"]:focus, .q-form input[type="email"]:focus { border-bottom-color: var(--c-web); }
+.q-form input::placeholder { color: var(--ink-3); font-weight: 500; }
+.q-form input:user-invalid { border-bottom-color: var(--accent); }
+.q-chips { display: inline-flex; flex-wrap: wrap; gap: .35rem; vertical-align: baseline; font-family: var(--font-body); font-size: var(--fs-0); font-weight: 600; line-height: 1.3; letter-spacing: 0; position: relative; }
+.q-chips input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.q-chips label { padding: .32em .8em; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink-2); cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
+.q-chips label:hover { color: var(--ink); border-color: var(--c-web); }
+.q-chips input:checked + label { background: var(--c-web); color: var(--on-c); border-color: var(--c-web); }
+.q-chips input:focus-visible + label { outline: 2px solid var(--c-web); outline-offset: 2px; }
+.q-form textarea { font-family: var(--font-body); font-size: var(--fs-0); font-weight: 400; line-height: 1.5; color: var(--ink); background: color-mix(in oklab, var(--bg) 60%, transparent); border: 1px solid var(--line-strong); border-radius: 14px; padding: .7rem .9rem; margin-top: .3rem; width: 100%; resize: vertical; outline: none; letter-spacing: 0; }
+.q-form textarea:focus { border-color: var(--c-web); }
+.q-hp { position: absolute; left: -9999px; top: 0; width: 1px; height: 1px; overflow: hidden; }
+.q-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.2rem; font-family: var(--font-body); font-weight: 400; font-size: var(--fs-0); letter-spacing: 0; line-height: 1.4; }
+.q-send { --c: var(--c-web); font-family: var(--font-body); }
+.q-send[disabled] { opacity: .6; cursor: progress; }
+.q-note { color: var(--ink-2); max-width: 36ch; }
+.q-note a { color: var(--ink); }
+.q-error { font-family: var(--font-body); font-size: var(--fs-0); font-weight: 500; color: var(--accent); letter-spacing: 0; margin: 0; }
+.q-done { display: grid; gap: 1.5rem; justify-items: start; }
+.q-done p { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-3); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.q-open { text-decoration: none; }
+@media (max-width: 560px) { .quote .q-in { border-radius: 18px; } .q-form { font-size: 1.3rem; } }
 
 /* ---------- raíl de posición ---------- */
 .rail { position: fixed; right: max(14px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%); z-index: 40; display: grid; gap: 14px; }

@@ -1,4 +1,4 @@
-/* GEBREY — tema claro/oscuro y copiar el correo */
+/* GEBREY — tema claro/oscuro, copiar el correo y el formulario de presupuesto */
 (function () {
   const root = document.documentElement;
   const KEY = 'gebrey-theme';
@@ -39,4 +39,53 @@
       } else fallback();
     });
   });
+
+  // pedir presupuesto: los botones abren la frase con huecos; sin JS siguen siendo un mailto
+  const dlg = document.getElementById('presupuesto');
+  if (dlg && typeof dlg.showModal === 'function') {
+    const form = dlg.querySelector('.q-form');
+    const done = dlg.querySelector('.q-done');
+    const err = dlg.querySelector('.q-error');
+    const send = dlg.querySelector('.q-send');
+    const blanks = Array.from(form.querySelectorAll('input[type="text"], input[type="email"]'));
+    // cada hueco mide lo que lleva escrito (o su pista), con un margen
+    const fit = (el) => { const n = el.value.length || el.placeholder.length; el.style.width = (Math.min(Math.max(n, 4), 40) * 0.54 + 1) + 'em'; };
+    blanks.forEach((el) => { fit(el); el.addEventListener('input', () => fit(el)); });
+    document.querySelectorAll('[data-quote]').forEach((a) => {
+      a.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        form.hidden = false; done.hidden = true; err.hidden = true;
+        form.querySelector('[name="t"]').value = Math.floor(Date.now() / 1000);
+        dlg.showModal();
+        const first = form.querySelector('#q-para');
+        if (first && window.matchMedia('(hover: hover)').matches) first.focus();
+      });
+    });
+    dlg.querySelectorAll('[data-quote-close]').forEach((b) => b.addEventListener('click', () => dlg.close()));
+    dlg.addEventListener('click', (ev) => { if (ev.target === dlg) dlg.close(); });   // clic fuera de la tarjeta
+    const phrase = () => {
+      const f = new FormData(form);
+      return `Quiero ${f.get('tipo')} para ${f.get('para')}, que sobre todo tiene que ${f.get('que')}. Lo necesito ${f.get('cuando')}.\nMe llamo ${f.get('nombre')} y me escribes a ${f.get('correo')}.\n\n${f.get('mas') || ''}`;
+    };
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      err.hidden = true;
+      if (!form.reportValidity()) return;
+      send.disabled = true;
+      try {
+        const r = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const data = await r.json();
+        if (!data.ok) throw new Error(data.error || 'No se ha podido enviar.');
+        form.hidden = true; done.hidden = false;
+        form.reset(); blanks.forEach(fit);
+      } catch (e) {
+        // si el servidor no responde, se abre el correo con la frase ya escrita
+        err.textContent = (e.message && e.message !== 'Failed to fetch' ? e.message + ' ' : '') + 'Se abre tu correo con el mensaje preparado.';
+        err.hidden = false;
+        location.href = 'mailto:hola@gebrey.es?subject=' + encodeURIComponent('Presupuesto') + '&body=' + encodeURIComponent(phrase());
+      } finally {
+        send.disabled = false;
+      }
+    });
+  }
 })();

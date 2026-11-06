@@ -79,7 +79,10 @@ PROJECTS = [
         one="Cada vehículo, cada servicio y cada aviso en una sola pantalla: rutas que se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa.",
         url="https://mbtenerife.es/citras/", link="Conocer Citras",
         schema='{"@type":"SoftwareApplication","name":"Citras","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es/citras/","description":"Citras coordina flotas de vehículos: rutas que se hacen y se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa. Un producto de MBTenerife.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}}}',
-        shot=site_shot("citras", "Citras")),
+        # la demo de Citras usada de verdad (record-citras.js), no un recorrido por su web
+        shot=video_shot("assets/video/citras-portatil", "assets/video/citras-movil",
+                        "Vídeo de la demo de Citras en el portátil: el centro de coordinación recibe un aviso urgente, activa la ambulancia que antes llega, replanifica las rutas y repasa la flota",
+                        "Vídeo de la demo de Citras en el móvil: la tripulación guarda la revisión de la ambulancia y el paciente ve llegar la suya")),
     dict(
         slug="teidetravel", name="TeideTravel", color="var(--c-tt)",
         kicker="Agencia de viajes especializada en grupos",
@@ -99,7 +102,7 @@ PROJECTS = [
         slug="web", name="Web y hosting", color="var(--c-web)",
         kicker="Webs y portales a medida, alojados y mantenidos",
         one="Tu web o tu herramienta interna, en un servidor gestionado en España, con correo, copias y certificados.",
-        url="mailto:hola@gebrey.es?subject=Web%20y%20hosting", link="Pedir presupuesto",
+        url="mailto:hola@gebrey.es?subject=Presupuesto", link="Pedir presupuesto", quote=True,
         schema='{"@type":"Service","serviceType":"Diseño web, desarrollo y hosting","provider":{"@id":"' + ORG + '"},"areaServed":"ES","description":"Webs, portales internos y alojamiento gestionado para asociaciones y pymes."}',
         shot='''<div class="shot web" aria-hidden="true">
   <div class="dots"><i class="pc" style="--i:0"></i><i class="pc" style="--i:1"></i><i class="pc" style="--i:2"></i></div>
@@ -156,6 +159,42 @@ def scripts(rel, reel=False):
         s += f'<script src="{rel}assets/js/reel.js?v={v("assets/js/reel.js")}" defer></script>'
     return s
 
+# ---------- pedir presupuesto: una frase con huecos ----------
+QUOTE_TIPOS = ["una web", "una tienda online", "un portal interno", "una app", "hosting y mantenimiento", "todavía no lo sé"]
+QUOTE_CUANDO = ["sin prisa", "este trimestre", "este mes", "ayer"]
+
+def chips(name, options, checked=0):
+    out = []
+    for i, o in enumerate(options):
+        out.append(f'<input type="radio" name="{name}" id="{name}-{i}" value="{html.escape(o, quote=True)}"{" checked" if i == checked else ""}>'
+                   f'<label for="{name}-{i}">{html.escape(o)}</label>')
+    return f'<span class="q-chips">{"".join(out)}</span>'
+
+def quote_dialog():
+    return f'''
+<dialog class="quote" id="presupuesto" aria-labelledby="q-title">
+  <div class="q-in">
+    <button class="q-close" type="button" data-quote-close aria-label="Cerrar">×</button>
+    <p class="q-kicker" id="q-title">Pedir presupuesto</p>
+    <form class="q-form" method="post" action="presupuesto.php" novalidate>
+      <p class="q-line"><span>Quiero</span> {chips("tipo", QUOTE_TIPOS)}</p>
+      <p class="q-line"><label for="q-para">para</label> <input type="text" id="q-para" name="para" placeholder="mi negocio o mi idea" maxlength="120" autocomplete="organization" required></p>
+      <p class="q-line"><label for="q-que">que sobre todo tiene que</label> <input type="text" id="q-que" name="que" placeholder="vender, reservar, fichar…" maxlength="160" required><span>.</span></p>
+      <p class="q-line"><span>Lo necesito</span> {chips("cuando", QUOTE_CUANDO)}</p>
+      <p class="q-line"><label for="q-nombre">Me llamo</label> <input type="text" id="q-nombre" name="nombre" placeholder="tu nombre" maxlength="80" autocomplete="name" required> <label for="q-correo">y me escribes a</label> <input type="email" id="q-correo" name="correo" placeholder="tu@correo.es" maxlength="120" autocomplete="email" required><span>.</span></p>
+      <textarea name="mas" rows="2" maxlength="3000" placeholder="Si quieres contarme algo más (un enlace, un plazo, lo que ya tienes)…"></textarea>
+      <p class="q-hp"><label>No rellenes esto <input type="text" name="web" tabindex="-1" autocomplete="off"></label></p>
+      <input type="hidden" name="t" value="">
+      <div class="q-actions">
+        <button class="s-link q-send" type="submit">Enviar</button>
+        <span class="q-note">Te contesto yo, normalmente el mismo día. O escríbeme a <a href="mailto:{PERSON["email"]}">{PERSON["email"]}</a>.</span>
+      </div>
+      <p class="q-error" role="alert" hidden></p>
+    </form>
+    <div class="q-done" hidden><p>Recibido. Te escribo en cuanto lo lea.</p><button class="s-link s-link-2" type="button" data-quote-close>Cerrar</button></div>
+  </div>
+</dialog>'''
+
 # ---------- índice ----------
 def index_page(preview=False):
     rel, home = "", "#inicio"
@@ -171,7 +210,7 @@ def index_page(preview=False):
     <div class="s-row">
       <div class="s-text">
         <p class="s-one">{p["one"]}</p>
-        <div class="s-links"><a class="s-link" href="{p["url"]}"{' rel="noopener"' if p["url"].startswith("http") else ''}>{p["link"]}</a>{f'<a class="s-link s-link-2" href="{p["url2"]}" rel="noopener">{p["link2"]}</a>' if p.get("url2") else ''}</div>
+        <div class="s-links"><a class="s-link" href="{p["url"]}"{' rel="noopener"' if p["url"].startswith("http") else ''}{' data-quote' if p.get("quote") else ''}>{p["link"]}</a>{f'<a class="s-link s-link-2" href="{p["url2"]}" rel="noopener">{p["link2"]}</a>' if p.get("url2") else ''}</div>
       </div>
       <div class="s-shot">{p["shot"]}</div>
     </div>
@@ -207,6 +246,7 @@ def index_page(preview=False):
     <div class="mail-row">
       <a class="mail" id="mail" href="mailto:{PERSON["email"]}" data-fit="{PERSON["email"]}"><span class="vh">{PERSON["email"]}</span><span aria-hidden="true">{letters(PERSON["email"])}</span></a>
       <button class="copy" type="button" data-copy="{PERSON["email"]}" aria-controls="mail">Copiar el correo</button>
+      <a class="copy q-open" href="mailto:{PERSON["email"]}?subject=Presupuesto" data-quote>Pedir presupuesto</a>
     </div>
     <div class="end-meta">
       <a class="tel" href="tel:{PERSON["phone_tel"]}">{PERSON["phone"]}</a>
@@ -220,6 +260,7 @@ def index_page(preview=False):
   </div>
 </section>
 </main>
+{quote_dialog()}
 <nav class="rail" aria-label="Posición">{rail}</nav>
 '''
     out += scripts(rel, reel=True)
@@ -245,6 +286,56 @@ def legal_page():
   <p>Este sitio no usa cookies de seguimiento ni analítica de terceros. Solo guarda en tu navegador, si la eliges, la preferencia de tema claro u oscuro.</p>
   <h2>Propiedad intelectual</h2>
   <p>Los textos, el diseño y el código de gebrey.es son de su titular. Las marcas de los proyectos enlazados pertenecen a sus respectivos titulares.</p>
+  <p><a class="back" href="index.html">Volver a los proyectos</a></p>
+</div></main>
+'''
+    out += scripts("")
+    out += '</body></html>'
+    return out
+
+PHP = r"""<?php
+// Recibe el formulario de presupuesto de gebrey.es y lo manda por correo a hola@gebrey.es.
+// Responde JSON si lo pide el JS de la página; si no (sin JS), redirige a gracias.html.
+$json = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
+$responder = function (bool $ok, string $error = '') use ($json) {
+    if ($json) { header('Content-Type: application/json; charset=utf-8'); echo json_encode(['ok' => $ok, 'error' => $error]); }
+    elseif ($ok) { header('Location: /gracias.html', true, 303); }
+    else { header('Content-Type: text/plain; charset=utf-8'); if (http_response_code() === 200) http_response_code(400); echo $error; }
+    exit;
+};
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') { http_response_code(405); $responder(false, 'Solo se admite POST.'); }
+// cebo para robots: el campo "web" lo rellenan ellos, nunca una persona (va oculto); y nadie escribe en menos de 3 s
+if (!empty($_POST['web'])) $responder(true);
+$t = (int)($_POST['t'] ?? 0);
+if ($t > 0 && time() - $t < 3) $responder(true);
+
+$campo = function (string $k, int $max) {
+    $v = trim(strip_tags((string)($_POST[$k] ?? '')));
+    $v = preg_replace('/[\r\n\t\x00-\x1f]+/', ' ', $v);
+    return mb_substr($v, 0, $max);
+};
+$tipo = $campo('tipo', 60); $para = $campo('para', 120); $que = $campo('que', 160); $cuando = $campo('cuando', 40);
+$nombre = $campo('nombre', 80); $correo = filter_var($campo('correo', 120), FILTER_VALIDATE_EMAIL);
+$mas = mb_substr(trim(strip_tags((string)($_POST['mas'] ?? ''))), 0, 3000);
+if ($nombre === '' || !$correo) $responder(false, 'Falta tu nombre o un correo válido.');
+if ($para === '' && $que === '' && $mas === '') $responder(false, 'Cuéntame al menos qué quieres.');
+
+$frase = "Quiero $tipo para $para, que sobre todo tiene que $que. Lo necesito $cuando.\nMe llamo $nombre y me escribes a $correo.";
+$cuerpo = $frase . ($mas !== '' ? "\n\n$mas" : '') . "\n\n— Enviado desde el formulario de gebrey.es el " . date('d/m/Y H:i') . " · IP " . ($_SERVER['REMOTE_ADDR'] ?? '?');
+$asunto = '=?UTF-8?B?' . base64_encode("Presupuesto: $tipo para $para") . '?=';
+$nombreCod = '=?UTF-8?B?' . base64_encode($nombre) . '?=';
+$cabeceras = "From: GEBREY <hola@gebrey.es>\r\nReply-To: $nombreCod <$correo>\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n";
+$ok = @mail('hola@gebrey.es', $asunto, $cuerpo, $cabeceras);
+$responder($ok, $ok ? '' : 'No se ha podido enviar. Escríbeme a hola@gebrey.es.');
+"""
+
+def gracias_page():
+    out = head("Recibido — GEBREY", "Tu petición de presupuesto ha llegado.", SITE + "/gracias.html", "assets/css/site.css")
+    out += header("index.html")
+    out += '''
+<main id="main" class="wrap"><div class="legal">
+  <h1>Recibido.</h1>
+  <p>Te escribo en cuanto lo lea, normalmente el mismo día.</p>
   <p><a class="back" href="index.html">Volver a los proyectos</a></p>
 </div></main>
 '''
@@ -334,6 +425,8 @@ def build():
     write(os.path.join(DIST, "sitemap.xml"), sitemap())
     write(os.path.join(DIST, "llms.txt"), llms())
     write(os.path.join(DIST, ".htaccess"), HTACCESS)
+    write(os.path.join(DIST, "presupuesto.php"), PHP)
+    write(os.path.join(DIST, "gracias.html"), gracias_page())
     # preview (artifact): index sin esqueleto, resto igual
     write(os.path.join(PREV, "index.html"), index_page(True))
     write(os.path.join(PREV, "legal.html"), legal_page())
