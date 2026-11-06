@@ -214,12 +214,12 @@ def index_page(preview=False):
     schema = ('{"@context":"https://schema.org","@graph":['
               '{"@type":"Organization","@id":"' + ORG + '","name":"GEBREY","url":"https://gebrey.es","email":"hola@gebrey.es","telephone":"+34822276190",'
               '"address":{"@type":"PostalAddress","streetAddress":"' + street + '","postalCode":"38005","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},'
-              '"description":"Software y web a medida, hechos en Tenerife: ' + names + '."},'
+              '"description":"Software y web a medida: ' + names + '."},'
               + ",".join(p["schema"] for p in PROJECTS)
               + ']}')
     extra = f'<script type="application/ld+json">{schema}</script>'
-    out = head("GEBREY — software y web hechos en Tenerife",
-               f"Proyectos de software y web hechos en Tenerife: {names}.",
+    out = head("GEBREY — proyectos de software y web",
+               f"Proyectos de software y web: {names}.",
                SITE + "/", "assets/css/site.css", extra, preview)
     out += header(home)
     out += f'''
@@ -356,7 +356,7 @@ def sitemap():
     return f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>'
 
 def llms():
-    lines = ["# GEBREY", "", "> Escaparate de proyectos de software y web a medida, hechos en Santa Cruz de Tenerife (Canarias, España).", "",
+    lines = ["# GEBREY", "", "> Escaparate de proyectos de software y web a medida.", "",
              f"Contacto: {PERSON['email']} · {PERSON['phone']} · {PERSON['address'][0]}, {PERSON['address'][1]}", "", "## Proyectos", ""]
     for p in PROJECTS:
         site = p["url"] if p["url"].startswith("http") else "https://gebrey.es/#web"
