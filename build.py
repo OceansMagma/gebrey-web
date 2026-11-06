@@ -218,7 +218,7 @@ def legal_page():
 <main id="main" class="wrap"><div class="legal">
   <h1>Aviso legal y privacidad</h1>
   <h2>Titular</h2>
-  <p>{PERSON["name"]}, profesional autónomo. NIF: pendiente de incluir. Domicilio: {PERSON["address"][0]}, {PERSON["address"][1]}. Correo: {PERSON["email"]}. Teléfono: {PERSON["phone"]}.</p>
+  <p>{PERSON["name"]}, profesional autónomo. NIF 07.979.288-J. Domicilio: {PERSON["address"][0]}, {PERSON["address"][1]}. Correo: {PERSON["email"]}. Teléfono: {PERSON["phone"]}.</p>
   <h2>Qué es este sitio</h2>
   <p>gebrey.es presenta los proyectos que desarrolla su titular y enlaza a cada uno de ellos. Cada proyecto tiene su propio titular, condiciones y política de privacidad en su web.</p>
   <h2>Datos personales</h2>
