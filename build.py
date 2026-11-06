@@ -28,6 +28,7 @@ PERSON = dict(
     address=["Avda. Tres de Mayo 30, Edificio Ahlers, 1.ª planta", "38005 Santa Cruz de Tenerife"],
 )
 ORG = "https://gebrey.es/#org"
+INDEXNOW_KEY = "bf8285b213157c518309b0364a3946ae"
 
 def v(rel):
     """Huella del contenido de un asset (src/assets/...) para romper la caché cuando cambia."""
@@ -418,6 +419,9 @@ def build():
     write(os.path.join(DIST, "llms.txt"), llms())
     write(os.path.join(DIST, ".htaccess"), HTACCESS)
     write(os.path.join(DIST, "presupuesto.php"), PHP)
+    # IndexNow: la clave publicada en la raíz permite avisar a Bing, Yandex y otros buscadores de cada cambio
+    # (python3 indexnow.py tras publicar)
+    write(os.path.join(DIST, INDEXNOW_KEY + ".txt"), INDEXNOW_KEY)
     write(os.path.join(DIST, "gracias.html"), gracias_page())
     # preview (artifact): index sin esqueleto, resto igual
     write(os.path.join(PREV, "index.html"), index_page(True))
