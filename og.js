@@ -13,7 +13,6 @@ const path = require('path');
   const css = fs.readFileSync(path.join(root, 'src/assets/css/site.css'), 'utf8');
   const colors = {};
   for (const m of css.matchAll(/(--c-[a-z]+):\s*(#[0-9a-f]{6})/gi)) if (!colors[m[1]]) colors[m[1]] = m[2];  // la primera es la del tema oscuro
-  const count = { 4: 'Cuatro', 5: 'Cinco', 6: 'Seis', 7: 'Siete', 8: 'Ocho' }[projects.length] || projects.length;
   const items = projects.map(([name, color]) => {
     const hex = colors[color.replace(/^var\(|\)$/g, '')] || '#f3e9d8';
     return `<span><i style="background:${hex}"></i>${name}</span>`;
@@ -34,7 +33,7 @@ const path = require('path');
 </style></head><body>
 <div class="glow"></div>
 <div class="mark">GEB<b>R</b>EY</div>
-<div class="tag">${count} proyectos de software y web,<br>hechos en Tenerife.</div>
+<div class="tag">Proyectos de software y web,<br>hechos en Tenerife.</div>
 <div class="row">${items}</div>
 </body></html>`;
   const browser = await chromium.launch();

@@ -29,8 +29,31 @@ PERSON = dict(
 )
 ORG = "https://gebrey.es/#org"
 
+def v(rel):
+    """Huella del contenido de un asset (src/assets/...) para romper la caché cuando cambia."""
+    path = os.path.join(SRC, rel)
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()[:10]
+
+
 # Vídeos del portal AppEquipo, servidos desde la web de MBTenerife (sin copia aquí): .mp4 y .webm
 VIDEO_APPEQUIPO = "https://mbtenerife.es/video"
+
+def video_shot(lap, mob, lap_label, mob_label, local=True):
+    """Pantalla con vídeo: el portátil a pantalla completa y el móvil asomando. `lap`/`mob` son la ruta
+    sin extensión (el JS añade .mp4/.webm al acercarse la escena). Los vídeos locales (src/assets/video,
+    grabados con record.js) llevan huella de contenido en data-v para romper la caché cuando cambian."""
+    def tag(cls, base, label, i):
+        vv = f' data-v="{v(base + ".mp4")}"' if local else ''
+        return (f'<video class="{cls} pc" style="--i:{i}" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback'
+                f' data-src="{base}"{vv} aria-label="{html.escape(label, quote=True)}"></video>')
+    return (f'<div class="shot video">\n  {tag("lap", lap, lap_label, 0)}\n'
+            f'  <div class="phone pc" style="--i:3">{tag("mob", mob, mob_label, 3)}</div>\n</div>')
+
+def site_shot(slug, name):
+    """Recorrido grabado por la web del proyecto (record.js): portátil y móvil."""
+    return video_shot(f"assets/video/{slug}-portatil", f"assets/video/{slug}-movil",
+                      f"Recorrido por la web de {name} en un portátil", f"Recorrido por la web de {name} en un móvil")
 
 PROJECTS = [
     dict(
@@ -39,61 +62,31 @@ PROJECTS = [
         one="Un solo buscador para que cada agencia reserve con todos sus mayoristas, usando sus propias claves.",
         url="https://viaconextahub.es", link="Entrar en viaconextahub.es",
         schema='{"@type":"SoftwareApplication","name":"ViaConextaHub","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://viaconextahub.es","description":"Plataforma SaaS que conecta a las agencias de viajes con sus mayoristas usando las claves de cada agencia.","author":{"@id":"' + ORG + '"},"offers":{"@type":"Offer","price":"25","priceCurrency":"EUR","description":"Suscripción mensual, más impuestos"}}',
-        shot='''<div class="shot vch" aria-hidden="true">
-  <div class="chips"><span class="chip on pc" style="--i:0">Mayorista A</span><span class="chip pc" style="--i:1">Mayorista B</span><span class="chip pc" style="--i:2">Mayorista C</span><span class="chip pc" style="--i:3">Tus claves</span></div>
-  <div class="rows">
-    <div class="row pc" style="--i:3"><span class="bar w3 pc" style="--i:4"></span><span class="price">184 €</span></div>
-    <div class="row pc" style="--i:4"><span class="bar w2 pc" style="--i:5"></span><span class="price">211 €</span></div>
-    <div class="row pc" style="--i:5"><span class="bar w4 pc" style="--i:6"></span><span class="price">176 €</span></div>
-    <div class="row pc" style="--i:6"><span class="bar w1 hot pc" style="--i:7"></span><span class="price">199 €</span></div>
-    <div class="row pc" style="--i:7"><span class="bar w3 pc" style="--i:8"></span><span class="price">205 €</span></div>
-    <div class="row pc" style="--i:8"><span class="bar w2 pc" style="--i:9"></span><span class="price">232 €</span></div>
-  </div>
-</div>'''),
+        shot=site_shot("viaconextahub", "ViaConextaHub")),
     dict(
         slug="appequipo", name="AppEquipo", color="var(--c-appequipo)",
         kicker="Control horario y portal del empleado a medida",
         one="Fichajes que nadie puede retocar, cuadrantes de turnos, nóminas firmadas desde el móvil y partes diarios, con el nombre y el logo de tu empresa.",
         url="https://mbtenerife.es", link="Entrar en mbtenerife.es",
         schema='{"@type":"SoftwareApplication","name":"AppEquipo","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es","description":"Control horario y portal del empleado para equipos de campo: registro de jornada inalterable, cuadrantes, nóminas firmadas y partes.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}},"offers":{"@type":"Offer","price":"3.50","priceCurrency":"EUR","description":"Desde 3,50 € por persona, según el volumen de la empresa"}}',
-        # los vídeos reales del portal (portátil y móvil): el JS les pone las fuentes al acercarse y los reproduce solo en su escena
-        shot=f'''<div class="shot appequipo">
-  <video class="lap pc" style="--i:0" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_APPEQUIPO}/portatil" aria-label="Vídeo del portal en el portátil: coordinación aprueba unas vacaciones, revisa un fichaje, cubre un turno libre y abre el cuadrante del mes"></video>
-  <div class="phone pc" style="--i:3"><video class="mob" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_APPEQUIPO}/movil" aria-label="Vídeo del portal en el móvil: una socorrista ficha la entrada, mira sus turnos, firma la nómina, hace la revisión de apertura y da un parte"></video></div>
-</div>'''),
+        # los vídeos reales del portal, servidos desde mbtenerife.es
+        shot=video_shot(f"{VIDEO_APPEQUIPO}/portatil", f"{VIDEO_APPEQUIPO}/movil",
+                        "Vídeo del portal en el portátil: coordinación aprueba unas vacaciones, revisa un fichaje, cubre un turno libre y abre el cuadrante del mes",
+                        "Vídeo del portal en el móvil: una socorrista ficha la entrada, mira sus turnos, firma la nómina, hace la revisión de apertura y da un parte", local=False)),
     dict(
         slug="citras", name="Citras", color="var(--c-citras)",
         kicker="Coordinación de flotas de vehículos",
         one="Cada vehículo, cada servicio y cada aviso en una sola pantalla: rutas que se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa.",
         url="https://mbtenerife.es/citras/", link="Conocer Citras",
         schema='{"@type":"SoftwareApplication","name":"Citras","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es/citras/","description":"Citras coordina flotas de vehículos: rutas que se hacen y se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa. Un producto de MBTenerife.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}}}',
-        shot='''<div class="shot citras" aria-hidden="true">
-  <div class="rows">
-    <div class="svc pc" style="--i:0"><i class="state"></i><span class="bar w3 pc" style="--i:1"></span><time>08:40</time></div>
-    <div class="svc pc" style="--i:1"><i class="state urg"></i><span class="bar w2 pc" style="--i:2"></span><time>08:52</time></div>
-    <div class="svc pc" style="--i:2"><i class="state wait"></i><span class="bar w4 pc" style="--i:3"></span><time>09:10</time></div>
-    <div class="svc pc" style="--i:3"><i class="state"></i><span class="bar w1 pc" style="--i:4"></span><time>09:25</time></div>
-    <div class="svc pc" style="--i:4"><i class="state wait"></i><span class="bar w3 pc" style="--i:5"></span><time>09:40</time></div>
-    <div class="svc pc" style="--i:5"><i class="state"></i><span class="bar w2 pc" style="--i:6"></span><time>09:55</time></div>
-  </div>
-  <div class="map pc" style="--i:2"><i class="dot pc" style="left:22%;top:30%;--i:4"></i><i class="dot b pc" style="left:62%;top:52%;--i:5"></i><i class="dot c pc" style="left:38%;top:74%;--i:6"></i></div>
-</div>'''),
+        shot=site_shot("citras", "Citras")),
     dict(
         slug="teidetravel", name="TeideTravel", color="var(--c-tt)",
         kicker="Agencia de viajes especializada en grupos",
         one="Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin.",
         url="https://teidetravel.es", link="Entrar en teidetravel.es",
         schema='{"@type":"TravelAgency","name":"TeideTravel","url":"https://teidetravel.es","email":"info@teidetravel.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},"parentOrganization":{"@id":"' + ORG + '"},"description":"Agencia de viajes especializada en viajes de grupo. Licencia I-AV-0004172.1."}',
-        shot='''<div class="shot tt" aria-hidden="true">
-  <div class="row"><span class="chip on pc" style="--i:0">Grupo de 42 viajeros</span><span class="chip pc" style="--i:1">4 días</span></div>
-  <div class="days">
-    <div class="day pc" style="--i:2;--h:38%"><i></i><span>Día 1</span></div>
-    <div class="day pc" style="--i:3;--h:72%"><i></i><span>Día 2</span></div>
-    <div class="day pc" style="--i:4;--h:56%"><i></i><span>Día 3</span></div>
-    <div class="day pc" style="--i:5;--h:30%"><i></i><span>Día 4</span></div>
-  </div>
-  <div class="total pc" style="--i:6"><span>Presupuesto por persona</span><span class="price">385 €</span></div>
-</div>'''),
+        shot=site_shot("teidetravel", "TeideTravel")),
     dict(
         slug="marnin", name="Marnin", color="var(--c-marnin)",
         kicker="Web y portal de empleados de una asociación de socorrismo",
@@ -101,19 +94,7 @@ PROJECTS = [
         url="https://marnin.es", link="Entrar en marnin.es",
         url2="https://marnin.appequipo.es", link2="Ver el Portal Marnin",
         schema='{"@type":"SoftwareApplication","name":"Portal Marnin","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://marnin.appequipo.es","description":"Portal del empleado de la Asociación de Socorrismo Marnin (Adeje, Tenerife): fichaje, documentos y operativa diaria de los socorristas. Web pública en https://marnin.es.","author":{"@id":"' + ORG + '"}}',
-        shot='''<div class="shot marnin" aria-hidden="true">
-  <div class="row"><span class="chip on pc" style="--i:0">Playa de Fañabé</span><span class="chip pc" style="--i:1">Turno 8:00–14:30</span></div>
-  <div class="clock">
-    <div class="t pc" style="--i:2"><b>08:02</b><span>Entrada</span></div>
-    <div class="track"><i class="fill pc" style="--i:3"></i><i class="pin pc" style="--i:4"></i></div>
-    <div class="t pc" style="--i:5"><b>14:31</b><span>Salida</span></div>
-  </div>
-  <div class="rows">
-    <div class="doc pc" style="--i:5"><span class="bar w3 pc" style="--i:6"></span><span class="chip on">Firmado</span></div>
-    <div class="doc pc" style="--i:6"><span class="bar w2 pc" style="--i:7"></span><span class="chip on">Firmado</span></div>
-    <div class="doc pc" style="--i:7"><span class="bar w4 pc" style="--i:8"></span><span class="chip">Pendiente</span></div>
-  </div>
-</div>'''),
+        shot=site_shot("marnin", "Marnin")),
     dict(
         slug="web", name="Web y hosting", color="var(--c-web)",
         kicker="Webs y portales a medida, alojados y mantenidos",
@@ -129,14 +110,6 @@ PROJECTS = [
   <div class="status pc" style="--i:7"><span><b>SSL</b> activo</span><span><b>Copias</b> cada noche</span><span><b>Correo</b> en tu dominio</span></div>
 </div>'''),
 ]
-
-COUNT = {4: "cuatro", 5: "cinco", 6: "seis", 7: "siete", 8: "ocho"}.get(len(PROJECTS), str(len(PROJECTS)))
-
-def v(rel):
-    """Huella del contenido de un asset (src/assets/...) para romper la caché cuando cambia."""
-    path = os.path.join(SRC, rel)
-    with open(path, "rb") as f:
-        return hashlib.sha256(f.read()).hexdigest()[:10]
 
 def letters(text, cls="l"):
     """Cada carácter en un span (para animarlos uno a uno). Los espacios se marcan."""
@@ -214,7 +187,7 @@ def index_page(preview=False):
               + ']}')
     extra = f'<script type="application/ld+json">{schema}</script>'
     out = head("GEBREY — software y web hechos en Tenerife",
-               f"{COUNT.capitalize()} proyectos de software y web hechos en Tenerife: {names}.",
+               f"Proyectos de software y web hechos en Tenerife: {names}.",
                SITE + "/", "assets/css/site.css", extra, preview)
     out += header(home)
     out += f'''
@@ -222,7 +195,7 @@ def index_page(preview=False):
 <section class="scene hero" id="inicio" aria-label="GEBREY">
   <div class="wrap hero-in">
     <div class="mark-slot" data-fit="GEBREY" data-fit-wdth="88"><span class="mark-ph" aria-hidden="true">GEBREY</span><a class="mark" href="#inicio" aria-label="GEBREY, inicio"><span class="lw" style="--i:0"><span class="l">G</span></span><span class="lw" style="--i:1"><span class="l">E</span></span><span class="lw" style="--i:2"><span class="l">B</span></span><span class="lw r" style="--i:3"><span class="l">R</span></span><span class="lw" style="--i:4"><span class="l">E</span></span><span class="lw" style="--i:5"><span class="l">Y</span></span></a></div>
-    <h1 class="tag">{COUNT.capitalize()} proyectos de software y web, hechos en Tenerife.</h1>
+    <h1 class="tag">Proyectos de software y web, hechos en Tenerife.</h1>
     <nav class="index" aria-label="Proyectos">{index}</nav>
   </div>
   <a class="cue" href="#{PROJECTS[0]["slug"]}" aria-label="Bajar al primer proyecto"></a>
@@ -300,7 +273,7 @@ def sitemap():
     return f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>'
 
 def llms():
-    lines = ["# GEBREY", "", f"> Escaparate de {COUNT} proyectos de software y web a medida, hechos en Santa Cruz de Tenerife (Canarias, España).", "",
+    lines = ["# GEBREY", "", "> Escaparate de proyectos de software y web a medida, hechos en Santa Cruz de Tenerife (Canarias, España).", "",
              f"Contacto: {PERSON['email']} · {PERSON['phone']} · {PERSON['address'][0]}, {PERSON['address'][1]}", "", "## Proyectos", ""]
     for p in PROJECTS:
         site = p["url"] if p["url"].startswith("http") else "https://gebrey.es/#web"
@@ -323,11 +296,13 @@ RedirectMatch 301 ^/proyectos/teidetravel\\.html$ /#teidetravel
 RedirectMatch 301 ^/proyectos/web-hosting\\.html$ /#web
 # tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt
+AddType video/mp4 .mp4
+AddType video/webm .webm
 <IfModule mod_headers.c>
   <FilesMatch "\\.(html|xml|txt)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\\.(css|js|png|svg|webp|jpg)$">
+  <FilesMatch "\\.(css|js|png|svg|webp|jpg|mp4|webm)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
@@ -338,6 +313,8 @@ AddType text/plain .txt
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
 </IfModule>
 """
 

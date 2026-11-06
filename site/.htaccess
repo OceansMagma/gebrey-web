@@ -12,11 +12,13 @@ RedirectMatch 301 ^/proyectos/teidetravel\.html$ /#teidetravel
 RedirectMatch 301 ^/proyectos/web-hosting\.html$ /#web
 # tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt
+AddType video/mp4 .mp4
+AddType video/webm .webm
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|xml|txt)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\.(css|js|png|svg|webp|jpg)$">
+  <FilesMatch "\.(css|js|png|svg|webp|jpg|mp4|webm)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
@@ -27,4 +29,6 @@ AddType text/plain .txt
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType video/webm "access plus 1 year"
 </IfModule>

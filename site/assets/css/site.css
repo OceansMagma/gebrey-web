@@ -323,63 +323,16 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 .shot .rows { display: grid; gap: .9em; align-content: start; }
 .shot .price { color: var(--ink); font-weight: 600; opacity: var(--sp); }
 
-/* ViaConextaHub: buscador con mayoristas */
-.shot.vch { grid-template-rows: auto 1fr; }
-.shot.vch .chips { display: flex; gap: .5em; flex-wrap: wrap; }
-.shot.vch .row { opacity: var(--sp); transform: translateX(calc((1 - var(--sp)) * -1.5em)); }
-
-/* AppEquipo: los vídeos reales del portal (portátil a pantalla completa y móvil asomando) */
-.shot.appequipo { padding: 0; display: block; background: color-mix(in oklab, var(--bg-2) 80%, var(--c)); }
-.shot.appequipo .lap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: var(--sp); }
-.shot.appequipo .phone {
+/* pantallas con vídeo (AppEquipo y los recorridos por cada web): portátil a pantalla completa y móvil asomando */
+.shot.video { padding: 0; display: block; background: color-mix(in oklab, var(--bg-2) 80%, var(--c)); }
+.shot.video .lap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: var(--sp); }
+.shot.video .phone {
   position: absolute; right: 5%; bottom: -3%; width: 21%; aspect-ratio: 640 / 1386;
   border: .2em solid var(--ink); border-radius: 1.5em; background: var(--ink); overflow: hidden;
   box-shadow: 0 1.2em 3em -1em rgba(0, 0, 0, .7);
   opacity: var(--sp); transform: translateY(calc((1 - var(--sp)) * 40%));
 }
-.shot.appequipo .phone video { width: 100%; height: 100%; object-fit: cover; }
-
-/* Citras: lista de servicios + mapa */
-.shot.citras { grid-template-columns: 1.15fr 1fr; grid-template-rows: 1fr; }
-.shot.citras .map {
-  border: 1px solid var(--line); border-radius: 8px; position: relative; opacity: var(--sp);
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 25% 25%;
-}
-.shot.citras .dot {
-  position: absolute; width: .9em; height: .9em; border-radius: 50%; background: var(--c);
-  transform: scale(var(--sp)); animation: ping 2.4s infinite;
-}
-.shot.citras .dot.b { background: var(--c-tt); animation-delay: .8s; }
-.shot.citras .dot.c { background: var(--c-vch); animation-delay: 1.5s; }
-@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, currentColor 50%, transparent); } 70% { box-shadow: 0 0 0 1em transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
-.shot.citras .dot { color: var(--c); } .shot.citras .dot.b { color: var(--c-tt); } .shot.citras .dot.c { color: var(--c-vch); }
-.shot.citras .svc { display: grid; grid-template-columns: auto 1fr auto; gap: .8em; align-items: center; opacity: var(--sp); transform: translateX(calc((1 - var(--sp)) * -1.5em)); }
-.shot.citras .state { width: .6em; height: .6em; border-radius: 50%; background: var(--c); }
-.shot.citras .state.wait { background: var(--c-tt); }
-.shot.citras .state.urg { background: var(--c-vch); }
-
-/* TeideTravel: ficha de viaje de grupo */
-.shot.tt { grid-template-rows: auto 1fr auto; }
-.shot.tt .row { grid-template-columns: auto auto; justify-content: start; }
-.shot.tt .days { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6em; height: 100%; }
-.shot.tt .day { display: flex; flex-direction: column; justify-content: flex-end; gap: .4em; height: 100%; min-height: 0; }
-.shot.tt .day i { display: block; flex: 0 0 var(--h, 40%); border-radius: 4px 4px 0 0; background: linear-gradient(to top, var(--c), color-mix(in oklab, var(--c) 55%, white)); transform-origin: bottom; transform: scaleY(var(--sp)); }
-.shot.tt .day span { color: var(--ink-3); font-size: .9em; opacity: var(--sp); }
-.shot.tt .total { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: .6em; opacity: var(--sp); }
-
-/* Marnin: turno del día, fichaje de entrada y salida, documentos firmados */
-.shot.marnin { grid-template-rows: auto auto 1fr; }
-.shot.marnin .row { grid-template-columns: auto auto; justify-content: start; }
-.shot.marnin .clock { display: grid; grid-template-columns: auto 1fr auto; gap: 1em; align-items: center; }
-.shot.marnin .t { display: grid; gap: .1em; text-align: center; opacity: var(--sp); transform: translateY(calc((1 - var(--sp)) * .6em)); }
-.shot.marnin .t b { color: var(--ink); font-weight: 700; font-size: 1.5em; line-height: 1; font-variant-numeric: tabular-nums; }
-.shot.marnin .t span { color: var(--ink-3); font-size: .9em; }
-.shot.marnin .track { position: relative; height: .6em; border-radius: 999px; background: var(--line); overflow: visible; }
-.shot.marnin .fill { position: absolute; inset: 0; border-radius: 999px; background: var(--c); transform-origin: left center; transform: scaleX(var(--sp)); }
-.shot.marnin .pin { position: absolute; top: 50%; left: 100%; width: 1.1em; height: 1.1em; margin: -.55em 0 0 -.55em; border-radius: 50%; background: var(--ink); border: .2em solid var(--c); transform: scale(var(--sp)); color: var(--c); animation: ping 2.4s infinite; }
-.shot.marnin .doc { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1em; opacity: var(--sp); transform: translateX(calc((1 - var(--sp)) * -1.5em)); }
-.shot.marnin .doc .chip { opacity: 1; transform: none; }
+.shot.video .phone video { width: 100%; height: 100%; object-fit: cover; }
 
 /* Web y hosting: ventana de navegador + estado */
 .shot.web { grid-template-rows: auto 1fr auto; gap: 4%; }

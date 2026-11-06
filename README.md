@@ -4,8 +4,9 @@ Web de GEBREY: un escaparate de proyectos en una sola página (ViaConextaHub, Ap
 
 ## Estructura
 
-- `src/` — fuentes: `assets/css/site.css`, `assets/js/reel.js` (coreografía de scroll), `assets/js/site.js` (tema y copiar correo), `assets/img/og.png`.
+- `src/` — fuentes: `assets/css/site.css`, `assets/js/reel.js` (coreografía de scroll y vídeos), `assets/js/site.js` (tema y copiar correo), `assets/img/og.png`, `assets/video/` (los recorridos grabados por cada web).
 - `build.py` — genera la página desde los datos de los proyectos (`PROJECTS`) y los textos de contacto (`PERSON`). Escribe `dist/` (para el servidor) y `preview/` (vista previa). Los vídeos de AppEquipo no se copian: se sirven desde `https://mbtenerife.es/video/` (`VIDEO_APPEQUIPO`).
+- `record.js` — graba con Playwright un recorrido por cada web (portátil 1200×750 y móvil 640×1386) y lo guarda en `src/assets/video/`; vuelve a ejecutarlo cuando cambie una web (`node record.js marnin` para una sola). Los vídeos de AppEquipo son los del portal y se sirven desde mbtenerife.es.
 - `og.js` — regenera `src/assets/img/og.png` (la imagen al compartir) con Playwright; ejecútalo si cambia la lista de proyectos.
 - `site/` — copia de `dist/` que se publica. **Es lo que sube el workflow.**
 - `shot.js` — capturas con Playwright para revisar escritorio, móvil y tema claro.

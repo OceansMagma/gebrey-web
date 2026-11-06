@@ -96,7 +96,7 @@
       v.muted = true;
       [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) => {
         const src = document.createElement('source');
-        src.src = v.dataset.src + '.' + ext; src.type = type;
+        src.src = v.dataset.src + '.' + ext + (v.dataset.v ? '?v=' + v.dataset.v : ''); src.type = type;
         v.appendChild(src);
       });
       v.preload = still ? 'metadata' : 'auto';
