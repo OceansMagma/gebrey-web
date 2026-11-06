@@ -33,7 +33,7 @@ const path = require('path');
 </style></head><body>
 <div class="glow"></div>
 <div class="mark">GEB<b>R</b>EY</div>
-<div class="tag">Proyectos de software y web,<br>hechos en Tenerife.</div>
+<div class="tag">Proyectos de software y web.</div>
 <div class="row">${items}</div>
 </body></html>`;
   const browser = await chromium.launch();

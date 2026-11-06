@@ -8,7 +8,7 @@ RewriteRule ^ https://gebrey.es%{REQUEST_URI} [L,R=301]
 # las antiguas páginas de proyecto van a su escena
 RedirectMatch 301 ^/proyectos/viaconextahub\.html$ /#viaconextahub
 RedirectMatch 301 ^/proyectos/citras\.html$ /#citras
-RedirectMatch 301 ^/proyectos/teidetravel\.html$ /#teidetravel
+RedirectMatch 301 ^/proyectos/teidetravel\.html$ /
 RedirectMatch 301 ^/proyectos/web-hosting\.html$ /#web
 # tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt

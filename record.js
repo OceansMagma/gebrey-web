@@ -14,7 +14,6 @@ const path = require('path');
 const SITES = {
   viaconextahub: { url: 'https://viaconextahub.es/' },
   citras: { url: 'https://mbtenerife.es/citras/' },
-  teidetravel: { url: 'https://teidetravel.es/' },
   marnin: { url: 'https://marnin.es/' },
 };
 const FPS = 30;

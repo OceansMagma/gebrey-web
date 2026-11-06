@@ -84,16 +84,9 @@ PROJECTS = [
                         "Vídeo de la demo de Citras en el portátil: el centro de coordinación recibe un aviso urgente, activa la ambulancia que antes llega, replanifica las rutas y repasa la flota",
                         "Vídeo de la demo de Citras en el móvil: la tripulación guarda la revisión de la ambulancia y el paciente ve llegar la suya")),
     dict(
-        slug="teidetravel", name="TeideTravel", color="var(--c-tt)",
-        kicker="Agencia de viajes especializada en grupos",
-        one="Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin.",
-        url="https://teidetravel.es", link="Entrar en teidetravel.es",
-        schema='{"@type":"TravelAgency","name":"TeideTravel","url":"https://teidetravel.es","email":"info@teidetravel.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},"parentOrganization":{"@id":"' + ORG + '"},"description":"Agencia de viajes especializada en viajes de grupo. Licencia I-AV-0004172.1."}',
-        shot=site_shot("teidetravel", "TeideTravel")),
-    dict(
         slug="marnin", name="Marnin", color="var(--c-marnin)",
         kicker="Web y portal de empleados de una asociación de socorrismo",
-        one="La web de la Asociación de Socorrismo Marnin y la app con la que sus socorristas fichan, firman documentos y organizan cada turno desde la playa.",
+        one="La web de la Asociación de Socorrismo Marnin y la app con la que sus socorristas fichan, firman documentos y organizan cada turno desde su puesto de trabajo.",
         url="https://marnin.es", link="Entrar en marnin.es",
         url2="https://marnin.appequipo.es", link2="Ver el Portal Marnin",
         schema='{"@type":"SoftwareApplication","name":"Portal Marnin","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://marnin.appequipo.es","description":"Portal del empleado de la Asociación de Socorrismo Marnin (Adeje, Tenerife): fichaje, documentos y operativa diaria de los socorristas. Web pública en https://marnin.es.","author":{"@id":"' + ORG + '"}}',
@@ -234,7 +227,7 @@ def index_page(preview=False):
 <section class="scene hero" id="inicio" aria-label="GEBREY">
   <div class="wrap hero-in">
     <div class="mark-slot" data-fit="GEBREY" data-fit-wdth="88"><span class="mark-ph" aria-hidden="true">GEBREY</span><a class="mark" href="#inicio" aria-label="GEBREY, inicio"><span class="lw" style="--i:0"><span class="l">G</span></span><span class="lw" style="--i:1"><span class="l">E</span></span><span class="lw" style="--i:2"><span class="l">B</span></span><span class="lw r" style="--i:3"><span class="l">R</span></span><span class="lw" style="--i:4"><span class="l">E</span></span><span class="lw" style="--i:5"><span class="l">Y</span></span></a></div>
-    <h1 class="tag">Proyectos de software y web, hechos en Tenerife.</h1>
+    <h1 class="tag">Proyectos de software y web.</h1>
     <nav class="index" aria-label="Proyectos">{index}</nav>
   </div>
   <a class="cue" href="#{PROJECTS[0]["slug"]}" aria-label="Bajar al primer proyecto"></a>
@@ -254,7 +247,6 @@ def index_page(preview=False):
     </div>
     <div class="end-foot">
       <span>GEBREY</span>
-      <span>Software y web hechos en Tenerife</span>
       <a href="legal.html">Aviso legal y privacidad</a>
     </div>
   </div>
@@ -383,7 +375,7 @@ RewriteRule ^ https://gebrey.es%{REQUEST_URI} [L,R=301]
 # las antiguas páginas de proyecto van a su escena
 RedirectMatch 301 ^/proyectos/viaconextahub\\.html$ /#viaconextahub
 RedirectMatch 301 ^/proyectos/citras\\.html$ /#citras
-RedirectMatch 301 ^/proyectos/teidetravel\\.html$ /#teidetravel
+RedirectMatch 301 ^/proyectos/teidetravel\\.html$ /
 RedirectMatch 301 ^/proyectos/web-hosting\\.html$ /#web
 # tipos y caché: el HTML se revalida siempre; CSS/JS/imágenes llevan ?v=huella y pueden cachearse mucho
 AddType text/plain .txt
