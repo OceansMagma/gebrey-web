@@ -1,0 +1,21 @@
+# GEBREY
+
+> Marca profesional de Francisco Gebrie Vicente, profesional autónomo en Santa Cruz de Tenerife (Canarias, España): software y web a medida.
+
+Contacto: hola@gebrey.es · +34 663 82 29 55
+
+## Proyectos propios
+
+- [ViaConextaHub](https://gebrey.es/proyectos/viaconextahub.html): Un solo portal para que cada agencia busque y reserve con sus mayoristas, usando sus propias claves. Sitio: https://viaconextahub.es
+- [Citras](https://gebrey.es/proyectos/citras.html): La pantalla desde la que un centro coordinador ve su flota, sus servicios y lo que está pasando ahora. Sitio: https://mbtenerife.es
+- [TeideTravel](https://gebrey.es/proyectos/teidetravel.html): Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin. Sitio: https://teidetravel.es
+- [Web y hosting](https://gebrey.es/proyectos/web-hosting.html): Tu web y tu portal de gestión, alojados y mantenidos por la misma persona que los construye.
+
+## Colaboraciones
+
+- Vianexo (https://vianexo.es) y Ocean's Magma (https://oceansmagma.es): plataformas de viajes de otros compañeros en cuyos desarrollos colabora.
+
+## Páginas
+
+- [Inicio](https://gebrey.es/)
+- [Aviso legal y privacidad](https://gebrey.es/legal.html)

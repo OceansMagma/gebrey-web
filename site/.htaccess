@@ -1,0 +1,16 @@
+RewriteEngine On
+# https siempre
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# www y gebrey.com redirigen a gebrey.es
+RewriteCond %{HTTP_HOST} !^gebrey\.es$ [NC]
+RewriteRule ^ https://gebrey.es%{REQUEST_URI} [L,R=301]
+# tipos y caché
+AddType text/plain .txt
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+</IfModule>
