@@ -9,6 +9,7 @@ Contacto: hola@gebrey.es · +34 822 276 190
 - ViaConextaHub (plataforma saas para agencias de viajes): Un solo buscador para que cada agencia reserve con todos sus mayoristas, usando sus propias claves. Sitio: https://viaconextahub.es
 - Citras (consola para centros coordinadores de transporte sanitario): Flota, servicios y lo que está pasando ahora, en una sola pantalla pensada para turnos largos. Sitio: https://mbtenerife.es
 - TeideTravel (agencia de viajes especializada en grupos): Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin. Sitio: https://teidetravel.es
+- Marnin (web y portal de empleados de una asociación de socorrismo): La web de la Asociación de Socorrismo Marnin y la app con la que sus socorristas fichan, firman documentos y organizan cada turno desde la playa. Sitio: https://marnin.es App: https://marnin.appequipo.es
 - Web y hosting (webs y portales a medida, alojados y mantenidos): Tu web o tu herramienta interna, en un servidor gestionado en España, con correo, copias y certificados. Sitio: https://gebrey.es/#web
 
 ## Colaboraciones

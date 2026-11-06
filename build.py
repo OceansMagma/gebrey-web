@@ -79,6 +79,26 @@ PROJECTS = [
   <div class="total pc" style="--i:6"><span>Presupuesto por persona</span><span class="price">385 €</span></div>
 </div>'''),
     dict(
+        slug="marnin", name="Marnin", color="var(--c-marnin)",
+        kicker="Web y portal de empleados de una asociación de socorrismo",
+        one="La web de la Asociación de Socorrismo Marnin y la app con la que sus socorristas fichan, firman documentos y organizan cada turno desde la playa.",
+        url="https://marnin.es", link="Entrar en marnin.es",
+        url2="https://marnin.appequipo.es", link2="Ver el Portal Marnin",
+        schema='{"@type":"SoftwareApplication","name":"Portal Marnin","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://marnin.appequipo.es","description":"Portal del empleado de la Asociación de Socorrismo Marnin (Adeje, Tenerife): fichaje, documentos y operativa diaria de los socorristas. Web pública en https://marnin.es.","author":{"@id":"https://gebrey.es/#person"}}',
+        shot='''<div class="shot marnin" aria-hidden="true">
+  <div class="row"><span class="chip on pc" style="--i:0">Playa de Fañabé</span><span class="chip pc" style="--i:1">Turno 8:00–14:30</span></div>
+  <div class="clock">
+    <div class="t pc" style="--i:2"><b>08:02</b><span>Entrada</span></div>
+    <div class="track"><i class="fill pc" style="--i:3"></i><i class="pin pc" style="--i:4"></i></div>
+    <div class="t pc" style="--i:5"><b>14:31</b><span>Salida</span></div>
+  </div>
+  <div class="rows">
+    <div class="doc pc" style="--i:5"><span class="bar w3 pc" style="--i:6"></span><span class="chip on">Firmado</span></div>
+    <div class="doc pc" style="--i:6"><span class="bar w2 pc" style="--i:7"></span><span class="chip on">Firmado</span></div>
+    <div class="doc pc" style="--i:7"><span class="bar w4 pc" style="--i:8"></span><span class="chip">Pendiente</span></div>
+  </div>
+</div>'''),
+    dict(
         slug="web", name="Web y hosting", color="var(--c-web)",
         kicker="Webs y portales a medida, alojados y mantenidos",
         one="Tu web o tu herramienta interna, en un servidor gestionado en España, con correo, copias y certificados.",
@@ -154,7 +174,7 @@ def index_page(preview=False):
     <div class="s-row">
       <div class="s-text">
         <p class="s-one">{p["one"]}</p>
-        <a class="s-link" href="{p["url"]}"{' rel="noopener"' if p["url"].startswith("http") else ''}>{p["link"]}</a>
+        <div class="s-links"><a class="s-link" href="{p["url"]}"{' rel="noopener"' if p["url"].startswith("http") else ''}>{p["link"]}</a>{f'<a class="s-link s-link-2" href="{p["url2"]}" rel="noopener">{p["link2"]}</a>' if p.get("url2") else ''}</div>
       </div>
       <div class="s-shot">{p["shot"]}</div>
     </div>
@@ -163,13 +183,13 @@ def index_page(preview=False):
     schema = ('{"@context":"https://schema.org","@graph":['
               '{"@type":"Organization","@id":"https://gebrey.es/#org","name":"GEBREY","url":"https://gebrey.es","email":"hola@gebrey.es","telephone":"+34822276190",'
               '"founder":{"@id":"https://gebrey.es/#person"},"address":{"@type":"PostalAddress","streetAddress":"Avda. Tres de Mayo 30, Edif. Adlhers, 1.ª planta","postalCode":"38005","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},'
-              '"description":"Software y web a medida, hechos en Tenerife: ViaConextaHub, Citras, TeideTravel y desarrollo web con hosting."},'
+              '"description":"Software y web a medida, hechos en Tenerife: ViaConextaHub, Citras, TeideTravel, Marnin y desarrollo web con hosting."},'
               '{"@type":"Person","@id":"https://gebrey.es/#person","name":"Francisco Gebrie Vicente","jobTitle":"Desarrollador de software y web, profesional autónomo","worksFor":{"@id":"https://gebrey.es/#org"},"email":"hola@gebrey.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressCountry":"ES"}},'
               + ",".join(p["schema"] for p in PROJECTS)
               + ']}')
     extra = f'<script type="application/ld+json">{schema}</script>'
     out = head("GEBREY — software y web hechos en Tenerife",
-               "Cuatro proyectos de software y web hechos en Tenerife: ViaConextaHub, Citras, TeideTravel y desarrollo web con hosting. GEBREY es la marca de Francisco Gebrie Vicente.",
+               "Cinco proyectos de software y web hechos en Tenerife: ViaConextaHub, Citras, TeideTravel, Marnin y desarrollo web con hosting. GEBREY es la marca de Francisco Gebrie Vicente.",
                SITE + "/", "assets/css/site.css", extra, preview)
     out += header(home)
     out += f'''
@@ -177,7 +197,7 @@ def index_page(preview=False):
 <section class="scene hero" id="inicio" aria-label="GEBREY">
   <div class="wrap hero-in">
     <div class="mark-slot" data-fit="GEBREY" data-fit-wdth="88"><span class="mark-ph" aria-hidden="true">GEBREY</span><a class="mark" href="#inicio" aria-label="GEBREY, inicio"><span class="lw" style="--i:0"><span class="l">G</span></span><span class="lw" style="--i:1"><span class="l">E</span></span><span class="lw" style="--i:2"><span class="l">B</span></span><span class="lw r" style="--i:3"><span class="l">R</span></span><span class="lw" style="--i:4"><span class="l">E</span></span><span class="lw" style="--i:5"><span class="l">Y</span></span></a></div>
-    <h1 class="tag">Cuatro proyectos de software y web, hechos en Tenerife.</h1>
+    <h1 class="tag">Cinco proyectos de software y web, hechos en Tenerife.</h1>
     <nav class="index" aria-label="Proyectos">{index}</nav>
   </div>
   <a class="cue" href="#{PROJECTS[0]["slug"]}" aria-label="Bajar al primer proyecto"></a>
@@ -260,7 +280,8 @@ def llms():
              "Contacto: hola@gebrey.es · +34 822 276 190", "", "## Proyectos", ""]
     for p in PROJECTS:
         site = p["url"] if p["url"].startswith("http") else "https://gebrey.es/#web"
-        lines.append(f"- {p['name']} ({p['kicker'].lower()}): {p['one']} Sitio: {site}")
+        app = f" App: {p['url2']}" if p.get("url2") else ""
+        lines.append(f"- {p['name']} ({p['kicker'].lower()}): {p['one']} Sitio: {site}{app}")
     lines += ["", "## Colaboraciones", "", "- Vianexo (https://vianexo.es) y Ocean's Magma (https://oceansmagma.es): plataformas de viajes de otros compañeros en cuyos desarrollos colabora.", "",
               "## Páginas", "", "- [Inicio](https://gebrey.es/)", "- [Aviso legal y privacidad](https://gebrey.es/legal.html)"]
     return "\n".join(lines) + "\n"

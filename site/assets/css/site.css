@@ -18,6 +18,7 @@
   --c-vch: #ff5a47;             /* ViaConextaHub: coral tajinaste */
   --c-citras: #3fc1b0;          /* Citras: verde atlántico */
   --c-tt: #ffb347;              /* TeideTravel: ámbar */
+  --c-marnin: #4fa8ff;          /* Marnin: azul atlántico */
   --c-web: #b9a7ff;             /* Web y hosting: lila */
   --c: var(--accent);
   --on-c: #1a0d0a;
@@ -53,6 +54,7 @@
     --c-vch: #d6301f;
     --c-citras: #137e71;
     --c-tt: #c46f12;
+    --c-marnin: #1b6fd0;
     --c-web: #6a52d8;
     --on-c: #fff8ee;
     color-scheme: light;
@@ -70,6 +72,7 @@
   --c-vch: #d6301f;
   --c-citras: #137e71;
   --c-tt: #c46f12;
+  --c-marnin: #1b6fd0;
   --c-web: #6a52d8;
   --on-c: #fff8ee;
   color-scheme: light;
@@ -270,6 +273,7 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 .s-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(1.5rem, 4vw, 5rem); align-items: center; }
 .s-text { --t: clamp(0, calc((var(--e) - 0.45) / 0.4), 1); display: grid; gap: 1.4rem; justify-items: start; opacity: var(--t); transform: translateY(calc((1 - var(--t)) * 2rem)); }
 .s-one { font-size: var(--fs-1); color: var(--ink); max-width: 30ch; text-wrap: pretty; }
+.s-links { display: flex; flex-wrap: wrap; gap: .6rem .8rem; align-items: center; }
 .s-link {
   display: inline-flex; align-items: center; gap: .6rem;
   padding: .85rem 1.35rem; border-radius: 999px;
@@ -280,6 +284,8 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 }
 .s-link:hover, .s-link:focus-visible { background: var(--c); color: var(--on-c); }
 .s-link small { font-weight: 500; opacity: .8; font-size: .92em; }
+.s-link-2 { border-color: var(--line-strong); background: transparent; color: var(--ink-2); }
+.s-link-2:hover, .s-link-2:focus-visible { border-color: var(--c); background: transparent; color: var(--ink); }
 
 /* la pantalla ilustrada: se monta pieza a pieza (--sp por pieza) y se inclina con el puntero */
 .s-shot { --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 50%; perspective: 1400px; justify-self: end; width: min(100%, calc(50svh * 16 / 9)); }
@@ -347,6 +353,19 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 .shot.tt .day i { display: block; flex: 0 0 var(--h, 40%); border-radius: 4px 4px 0 0; background: linear-gradient(to top, var(--c), color-mix(in oklab, var(--c) 55%, white)); transform-origin: bottom; transform: scaleY(var(--sp)); }
 .shot.tt .day span { color: var(--ink-3); font-size: .9em; opacity: var(--sp); }
 .shot.tt .total { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: .6em; opacity: var(--sp); }
+
+/* Marnin: turno del día, fichaje de entrada y salida, documentos firmados */
+.shot.marnin { grid-template-rows: auto auto 1fr; }
+.shot.marnin .row { grid-template-columns: auto auto; justify-content: start; }
+.shot.marnin .clock { display: grid; grid-template-columns: auto 1fr auto; gap: 1em; align-items: center; }
+.shot.marnin .t { display: grid; gap: .1em; text-align: center; opacity: var(--sp); transform: translateY(calc((1 - var(--sp)) * .6em)); }
+.shot.marnin .t b { color: var(--ink); font-weight: 700; font-size: 1.5em; line-height: 1; font-variant-numeric: tabular-nums; }
+.shot.marnin .t span { color: var(--ink-3); font-size: .9em; }
+.shot.marnin .track { position: relative; height: .6em; border-radius: 999px; background: var(--line); overflow: visible; }
+.shot.marnin .fill { position: absolute; inset: 0; border-radius: 999px; background: var(--c); transform-origin: left center; transform: scaleX(var(--sp)); }
+.shot.marnin .pin { position: absolute; top: 50%; left: 100%; width: 1.1em; height: 1.1em; margin: -.55em 0 0 -.55em; border-radius: 50%; background: var(--ink); border: .2em solid var(--c); transform: scale(var(--sp)); color: var(--c); animation: ping 2.4s infinite; }
+.shot.marnin .doc { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1em; opacity: var(--sp); transform: translateX(calc((1 - var(--sp)) * -1.5em)); }
+.shot.marnin .doc .chip { opacity: 1; transform: none; }
 
 /* Web y hosting: ventana de navegador + estado */
 .shot.web { grid-template-rows: auto 1fr auto; gap: 4%; }
