@@ -1,11 +1,11 @@
 # gebrey.es
 
-Web de GEBREY: un escaparate de proyectos en una sola página (ViaConextaHub, MBTenerife, Citras, TeideTravel, Marnin y Web y hosting) más el aviso legal. El nombre del titular solo aparece en el aviso legal.
+Web de GEBREY: un escaparate de proyectos en una sola página (ViaConextaHub, AppEquipo, Citras, TeideTravel, Marnin y Web y hosting) más el aviso legal. El nombre del titular solo aparece en el aviso legal.
 
 ## Estructura
 
 - `src/` — fuentes: `assets/css/site.css`, `assets/js/reel.js` (coreografía de scroll), `assets/js/site.js` (tema y copiar correo), `assets/img/og.png`.
-- `build.py` — genera la página desde los datos de los proyectos (`PROJECTS`) y los textos de contacto (`PERSON`). Escribe `dist/` (para el servidor) y `preview/` (vista previa). Los vídeos de MBTenerife no se copian: se sirven desde `https://mbtenerife.es/video/` (`VIDEO_MBT`).
+- `build.py` — genera la página desde los datos de los proyectos (`PROJECTS`) y los textos de contacto (`PERSON`). Escribe `dist/` (para el servidor) y `preview/` (vista previa). Los vídeos de AppEquipo no se copian: se sirven desde `https://mbtenerife.es/video/` (`VIDEO_APPEQUIPO`).
 - `og.js` — regenera `src/assets/img/og.png` (la imagen al compartir) con Playwright; ejecútalo si cambia la lista de proyectos.
 - `site/` — copia de `dist/` que se publica. **Es lo que sube el workflow.**
 - `shot.js` — capturas con Playwright para revisar escritorio, móvil y tema claro.

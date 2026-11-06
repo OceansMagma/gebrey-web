@@ -29,8 +29,8 @@ PERSON = dict(
 )
 ORG = "https://gebrey.es/#org"
 
-# Vídeos del portal de MBTenerife, servidos desde su propia web (sin copia aquí): .mp4 y .webm
-VIDEO_MBT = "https://mbtenerife.es/video"
+# Vídeos del portal AppEquipo, servidos desde la web de MBTenerife (sin copia aquí): .mp4 y .webm
+VIDEO_APPEQUIPO = "https://mbtenerife.es/video"
 
 PROJECTS = [
     dict(
@@ -51,15 +51,15 @@ PROJECTS = [
   </div>
 </div>'''),
     dict(
-        slug="mbtenerife", name="MBTenerife", color="var(--c-mbt)",
+        slug="appequipo", name="AppEquipo", color="var(--c-appequipo)",
         kicker="Control horario y portal del empleado a medida",
         one="Fichajes que nadie puede retocar, cuadrantes de turnos, nóminas firmadas desde el móvil y partes diarios, con el nombre y el logo de tu empresa.",
         url="https://mbtenerife.es", link="Entrar en mbtenerife.es",
-        schema='{"@type":"SoftwareApplication","name":"MBTenerife","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es","description":"Control horario y portal del empleado para equipos de campo: registro de jornada inalterable, cuadrantes, nóminas firmadas y partes.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}},"offers":{"@type":"Offer","price":"3.50","priceCurrency":"EUR","description":"Desde 3,50 € por persona, según el volumen de la empresa"}}',
+        schema='{"@type":"SoftwareApplication","name":"AppEquipo","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es","description":"Control horario y portal del empleado para equipos de campo: registro de jornada inalterable, cuadrantes, nóminas firmadas y partes.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}},"offers":{"@type":"Offer","price":"3.50","priceCurrency":"EUR","description":"Desde 3,50 € por persona, según el volumen de la empresa"}}',
         # los vídeos reales del portal (portátil y móvil): el JS les pone las fuentes al acercarse y los reproduce solo en su escena
-        shot=f'''<div class="shot mbt">
-  <video class="lap pc" style="--i:0" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_MBT}/portatil" aria-label="Vídeo del portal en el portátil: coordinación aprueba unas vacaciones, revisa un fichaje, cubre un turno libre y abre el cuadrante del mes"></video>
-  <div class="phone pc" style="--i:3"><video class="mob" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_MBT}/movil" aria-label="Vídeo del portal en el móvil: una socorrista ficha la entrada, mira sus turnos, firma la nómina, hace la revisión de apertura y da un parte"></video></div>
+        shot=f'''<div class="shot appequipo">
+  <video class="lap pc" style="--i:0" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_APPEQUIPO}/portatil" aria-label="Vídeo del portal en el portátil: coordinación aprueba unas vacaciones, revisa un fichaje, cubre un turno libre y abre el cuadrante del mes"></video>
+  <div class="phone pc" style="--i:3"><video class="mob" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_APPEQUIPO}/movil" aria-label="Vídeo del portal en el móvil: una socorrista ficha la entrada, mira sus turnos, firma la nómina, hace la revisión de apertura y da un parte"></video></div>
 </div>'''),
     dict(
         slug="citras", name="Citras", color="var(--c-citras)",

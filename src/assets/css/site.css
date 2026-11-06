@@ -16,7 +16,7 @@
   --line-strong: rgba(243, 233, 216, 0.34);
   --accent: #ff5a47;            /* la R de GEBREY */
   --c-vch: #ff5a47;             /* ViaConextaHub: coral tajinaste */
-  --c-mbt: #c6e85a;             /* MBTenerife: lima */
+  --c-appequipo: #c6e85a;       /* AppEquipo: lima */
   --c-citras: #3fc1b0;          /* Citras: verde atlántico */
   --c-tt: #ffb347;              /* TeideTravel: ámbar */
   --c-marnin: #4fa8ff;          /* Marnin: azul atlántico */
@@ -53,7 +53,7 @@
     --line-strong: rgba(27, 21, 18, 0.36);
     --accent: #d6301f;
     --c-vch: #d6301f;
-    --c-mbt: #4d7f0a;
+    --c-appequipo: #4d7f0a;
     --c-citras: #137e71;
     --c-tt: #c46f12;
     --c-marnin: #1b6fd0;
@@ -72,7 +72,7 @@
   --line-strong: rgba(27, 21, 18, 0.36);
   --accent: #d6301f;
   --c-vch: #d6301f;
-  --c-mbt: #4d7f0a;
+  --c-appequipo: #4d7f0a;
   --c-citras: #137e71;
   --c-tt: #c46f12;
   --c-marnin: #1b6fd0;
@@ -328,16 +328,16 @@ html.motion .index a { opacity: 0; animation: fade 0.8s var(--ease-out) forwards
 .shot.vch .chips { display: flex; gap: .5em; flex-wrap: wrap; }
 .shot.vch .row { opacity: var(--sp); transform: translateX(calc((1 - var(--sp)) * -1.5em)); }
 
-/* MBTenerife: los vídeos reales del portal (portátil a pantalla completa y móvil asomando) */
-.shot.mbt { padding: 0; display: block; background: color-mix(in oklab, var(--bg-2) 80%, var(--c)); }
-.shot.mbt .lap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: var(--sp); }
-.shot.mbt .phone {
+/* AppEquipo: los vídeos reales del portal (portátil a pantalla completa y móvil asomando) */
+.shot.appequipo { padding: 0; display: block; background: color-mix(in oklab, var(--bg-2) 80%, var(--c)); }
+.shot.appequipo .lap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: var(--sp); }
+.shot.appequipo .phone {
   position: absolute; right: 5%; bottom: -3%; width: 21%; aspect-ratio: 640 / 1386;
   border: .2em solid var(--ink); border-radius: 1.5em; background: var(--ink); overflow: hidden;
   box-shadow: 0 1.2em 3em -1em rgba(0, 0, 0, .7);
   opacity: var(--sp); transform: translateY(calc((1 - var(--sp)) * 40%));
 }
-.shot.mbt .phone video { width: 100%; height: 100%; object-fit: cover; }
+.shot.appequipo .phone video { width: 100%; height: 100%; object-fit: cover; }
 
 /* Citras: lista de servicios + mapa */
 .shot.citras { grid-template-columns: 1.15fr 1fr; grid-template-rows: 1fr; }
