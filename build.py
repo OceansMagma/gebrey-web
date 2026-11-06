@@ -22,10 +22,15 @@ FAVICON = ("data:image/svg+xml," + html.escape(
 SUN = '<svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
 MOON = '<svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a7 7 0 1 0 10.5 10.5z"/></svg>'
 
+# El nombre solo aparece en el aviso legal (lo exige la LSSI); la portada es un escaparate de proyectos.
 PERSON = dict(
     name="Francisco Gebrie Vicente", email="hola@gebrey.es", phone="+34 822 276 190", phone_tel="+34822276190",
-    address=["Avda. Tres de Mayo 30, Edif. Adlhers, 1.ª planta", "38005 Santa Cruz de Tenerife"],
+    address=["Avda. Tres de Mayo 30, Edificio Ahlers, 1.ª planta", "38005 Santa Cruz de Tenerife"],
 )
+ORG = "https://gebrey.es/#org"
+
+# Vídeos del portal de MBTenerife, servidos desde su propia web (sin copia aquí): .mp4 y .webm
+VIDEO_MBT = "https://mbtenerife.es/video"
 
 PROJECTS = [
     dict(
@@ -33,7 +38,7 @@ PROJECTS = [
         kicker="Plataforma SaaS para agencias de viajes",
         one="Un solo buscador para que cada agencia reserve con todos sus mayoristas, usando sus propias claves.",
         url="https://viaconextahub.es", link="Entrar en viaconextahub.es",
-        schema='{"@type":"SoftwareApplication","name":"ViaConextaHub","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://viaconextahub.es","description":"Plataforma SaaS que conecta a las agencias de viajes con sus mayoristas usando las claves de cada agencia.","author":{"@id":"https://gebrey.es/#person"},"offers":{"@type":"Offer","price":"25","priceCurrency":"EUR","description":"Suscripción mensual, más impuestos"}}',
+        schema='{"@type":"SoftwareApplication","name":"ViaConextaHub","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://viaconextahub.es","description":"Plataforma SaaS que conecta a las agencias de viajes con sus mayoristas usando las claves de cada agencia.","author":{"@id":"' + ORG + '"},"offers":{"@type":"Offer","price":"25","priceCurrency":"EUR","description":"Suscripción mensual, más impuestos"}}',
         shot='''<div class="shot vch" aria-hidden="true">
   <div class="chips"><span class="chip on pc" style="--i:0">Mayorista A</span><span class="chip pc" style="--i:1">Mayorista B</span><span class="chip pc" style="--i:2">Mayorista C</span><span class="chip pc" style="--i:3">Tus claves</span></div>
   <div class="rows">
@@ -46,11 +51,22 @@ PROJECTS = [
   </div>
 </div>'''),
     dict(
-        slug="citras", name="Citras", color="var(--c-citras)",
-        kicker="Consola para centros coordinadores de transporte sanitario",
-        one="Flota, servicios y lo que está pasando ahora, en una sola pantalla pensada para turnos largos.",
+        slug="mbtenerife", name="MBTenerife", color="var(--c-mbt)",
+        kicker="Control horario y portal del empleado a medida",
+        one="Fichajes que nadie puede retocar, cuadrantes de turnos, nóminas firmadas desde el móvil y partes diarios, con el nombre y el logo de tu empresa.",
         url="https://mbtenerife.es", link="Entrar en mbtenerife.es",
-        schema='{"@type":"SoftwareApplication","name":"Citras","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es","description":"Consola para centros coordinadores de ambulancias y transporte de pacientes, de MBTenerife.","author":{"@type":"Organization","name":"MBTenerife","founder":{"@id":"https://gebrey.es/#person"}}}',
+        schema='{"@type":"SoftwareApplication","name":"MBTenerife","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es","description":"Control horario y portal del empleado para equipos de campo: registro de jornada inalterable, cuadrantes, nóminas firmadas y partes.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}},"offers":{"@type":"Offer","price":"3.50","priceCurrency":"EUR","description":"Desde 3,50 € por persona, según el volumen de la empresa"}}',
+        # los vídeos reales del portal (portátil y móvil): el JS les pone las fuentes al acercarse y los reproduce solo en su escena
+        shot=f'''<div class="shot mbt">
+  <video class="lap pc" style="--i:0" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_MBT}/portatil" aria-label="Vídeo del portal en el portátil: coordinación aprueba unas vacaciones, revisa un fichaje, cubre un turno libre y abre el cuadrante del mes"></video>
+  <div class="phone pc" style="--i:3"><video class="mob" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback data-src="{VIDEO_MBT}/movil" aria-label="Vídeo del portal en el móvil: una socorrista ficha la entrada, mira sus turnos, firma la nómina, hace la revisión de apertura y da un parte"></video></div>
+</div>'''),
+    dict(
+        slug="citras", name="Citras", color="var(--c-citras)",
+        kicker="Coordinación de flotas de vehículos",
+        one="Cada vehículo, cada servicio y cada aviso en una sola pantalla: rutas que se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa.",
+        url="https://mbtenerife.es/citras/", link="Conocer Citras",
+        schema='{"@type":"SoftwareApplication","name":"Citras","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://mbtenerife.es/citras/","description":"Citras coordina flotas de vehículos: rutas que se hacen y se rehacen solas, avisos urgentes y un enlace para seguir cada vehículo en el mapa. Un producto de MBTenerife.","author":{"@type":"Organization","name":"MBTenerife","url":"https://mbtenerife.es","parentOrganization":{"@id":"' + ORG + '"}}}',
         shot='''<div class="shot citras" aria-hidden="true">
   <div class="rows">
     <div class="svc pc" style="--i:0"><i class="state"></i><span class="bar w3 pc" style="--i:1"></span><time>08:40</time></div>
@@ -67,7 +83,7 @@ PROJECTS = [
         kicker="Agencia de viajes especializada en grupos",
         one="Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin.",
         url="https://teidetravel.es", link="Entrar en teidetravel.es",
-        schema='{"@type":"TravelAgency","name":"TeideTravel","url":"https://teidetravel.es","email":"info@teidetravel.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},"founder":{"@id":"https://gebrey.es/#person"},"description":"Agencia de viajes especializada en viajes de grupo. Licencia I-AV-0004172.1."}',
+        schema='{"@type":"TravelAgency","name":"TeideTravel","url":"https://teidetravel.es","email":"info@teidetravel.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},"parentOrganization":{"@id":"' + ORG + '"},"description":"Agencia de viajes especializada en viajes de grupo. Licencia I-AV-0004172.1."}',
         shot='''<div class="shot tt" aria-hidden="true">
   <div class="row"><span class="chip on pc" style="--i:0">Grupo de 42 viajeros</span><span class="chip pc" style="--i:1">4 días</span></div>
   <div class="days">
@@ -84,7 +100,7 @@ PROJECTS = [
         one="La web de la Asociación de Socorrismo Marnin y la app con la que sus socorristas fichan, firman documentos y organizan cada turno desde la playa.",
         url="https://marnin.es", link="Entrar en marnin.es",
         url2="https://marnin.appequipo.es", link2="Ver el Portal Marnin",
-        schema='{"@type":"SoftwareApplication","name":"Portal Marnin","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://marnin.appequipo.es","description":"Portal del empleado de la Asociación de Socorrismo Marnin (Adeje, Tenerife): fichaje, documentos y operativa diaria de los socorristas. Web pública en https://marnin.es.","author":{"@id":"https://gebrey.es/#person"}}',
+        schema='{"@type":"SoftwareApplication","name":"Portal Marnin","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://marnin.appequipo.es","description":"Portal del empleado de la Asociación de Socorrismo Marnin (Adeje, Tenerife): fichaje, documentos y operativa diaria de los socorristas. Web pública en https://marnin.es.","author":{"@id":"' + ORG + '"}}',
         shot='''<div class="shot marnin" aria-hidden="true">
   <div class="row"><span class="chip on pc" style="--i:0">Playa de Fañabé</span><span class="chip pc" style="--i:1">Turno 8:00–14:30</span></div>
   <div class="clock">
@@ -103,7 +119,7 @@ PROJECTS = [
         kicker="Webs y portales a medida, alojados y mantenidos",
         one="Tu web o tu herramienta interna, en un servidor gestionado en España, con correo, copias y certificados.",
         url="mailto:hola@gebrey.es?subject=Web%20y%20hosting", link="Pedir presupuesto",
-        schema='{"@type":"Service","serviceType":"Diseño web, desarrollo y hosting","provider":{"@id":"https://gebrey.es/#person"},"areaServed":"ES","description":"Webs, portales internos y alojamiento gestionado para asociaciones y pymes."}',
+        schema='{"@type":"Service","serviceType":"Diseño web, desarrollo y hosting","provider":{"@id":"' + ORG + '"},"areaServed":"ES","description":"Webs, portales internos y alojamiento gestionado para asociaciones y pymes."}',
         shot='''<div class="shot web" aria-hidden="true">
   <div class="dots"><i class="pc" style="--i:0"></i><i class="pc" style="--i:1"></i><i class="pc" style="--i:2"></i></div>
   <div class="win pc" style="--i:1">
@@ -113,6 +129,8 @@ PROJECTS = [
   <div class="status pc" style="--i:7"><span><b>SSL</b> activo</span><span><b>Copias</b> cada noche</span><span><b>Correo</b> en tu dominio</span></div>
 </div>'''),
 ]
+
+COUNT = {4: "cuatro", 5: "cinco", 6: "seis", 7: "siete", 8: "ocho"}.get(len(PROJECTS), str(len(PROJECTS)))
 
 def v(rel):
     """Huella del contenido de un asset (src/assets/...) para romper la caché cuando cambia."""
@@ -186,16 +204,17 @@ def index_page(preview=False):
     </div>
   </div>
 </section>'''
+    names = ", ".join(p["name"] for p in PROJECTS[:-1]) + " y desarrollo web con hosting"
+    street = html.escape(PERSON["address"][0], quote=True)
     schema = ('{"@context":"https://schema.org","@graph":['
-              '{"@type":"Organization","@id":"https://gebrey.es/#org","name":"GEBREY","url":"https://gebrey.es","email":"hola@gebrey.es","telephone":"+34822276190",'
-              '"founder":{"@id":"https://gebrey.es/#person"},"address":{"@type":"PostalAddress","streetAddress":"Avda. Tres de Mayo 30, Edif. Adlhers, 1.ª planta","postalCode":"38005","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},'
-              '"description":"Software y web a medida, hechos en Tenerife: ViaConextaHub, Citras, TeideTravel, Marnin y desarrollo web con hosting."},'
-              '{"@type":"Person","@id":"https://gebrey.es/#person","name":"Francisco Gebrie Vicente","jobTitle":"Desarrollador de software y web, profesional autónomo","worksFor":{"@id":"https://gebrey.es/#org"},"email":"hola@gebrey.es","address":{"@type":"PostalAddress","addressLocality":"Santa Cruz de Tenerife","addressCountry":"ES"}},'
+              '{"@type":"Organization","@id":"' + ORG + '","name":"GEBREY","url":"https://gebrey.es","email":"hola@gebrey.es","telephone":"+34822276190",'
+              '"address":{"@type":"PostalAddress","streetAddress":"' + street + '","postalCode":"38005","addressLocality":"Santa Cruz de Tenerife","addressRegion":"Canarias","addressCountry":"ES"},'
+              '"description":"Software y web a medida, hechos en Tenerife: ' + names + '."},'
               + ",".join(p["schema"] for p in PROJECTS)
               + ']}')
     extra = f'<script type="application/ld+json">{schema}</script>'
     out = head("GEBREY — software y web hechos en Tenerife",
-               "Cinco proyectos de software y web hechos en Tenerife: ViaConextaHub, Citras, TeideTravel, Marnin y desarrollo web con hosting. GEBREY es la marca de Francisco Gebrie Vicente.",
+               f"{COUNT.capitalize()} proyectos de software y web hechos en Tenerife: {names}.",
                SITE + "/", "assets/css/site.css", extra, preview)
     out += header(home)
     out += f'''
@@ -203,7 +222,7 @@ def index_page(preview=False):
 <section class="scene hero" id="inicio" aria-label="GEBREY">
   <div class="wrap hero-in">
     <div class="mark-slot" data-fit="GEBREY" data-fit-wdth="88"><span class="mark-ph" aria-hidden="true">GEBREY</span><a class="mark" href="#inicio" aria-label="GEBREY, inicio"><span class="lw" style="--i:0"><span class="l">G</span></span><span class="lw" style="--i:1"><span class="l">E</span></span><span class="lw" style="--i:2"><span class="l">B</span></span><span class="lw r" style="--i:3"><span class="l">R</span></span><span class="lw" style="--i:4"><span class="l">E</span></span><span class="lw" style="--i:5"><span class="l">Y</span></span></a></div>
-    <h1 class="tag">Cinco proyectos de software y web, hechos en Tenerife.</h1>
+    <h1 class="tag">{COUNT.capitalize()} proyectos de software y web, hechos en Tenerife.</h1>
     <nav class="index" aria-label="Proyectos">{index}</nav>
   </div>
   <a class="cue" href="#{PROJECTS[0]["slug"]}" aria-label="Bajar al primer proyecto"></a>
@@ -218,12 +237,11 @@ def index_page(preview=False):
     </div>
     <div class="end-meta">
       <a class="tel" href="tel:{PERSON["phone_tel"]}">{PERSON["phone"]}</a>
-      <p>También colaboro en los desarrollos de <a href="https://vianexo.es" rel="noopener">Vianexo</a> y <a href="https://oceansmagma.es" rel="noopener">Ocean's Magma</a>.</p>
+      <address>{PERSON["address"][0]}<br>{PERSON["address"][1]}</address>
     </div>
     <div class="end-foot">
       <span>GEBREY</span>
-      <span>{PERSON["name"]}, profesional autónomo</span>
-      <span>{PERSON["address"][1]}</span>
+      <span>Software y web hechos en Tenerife</span>
       <a href="legal.html">Aviso legal y privacidad</a>
     </div>
   </div>
@@ -244,7 +262,7 @@ def legal_page():
 <main id="main" class="wrap"><div class="legal">
   <h1>Aviso legal y privacidad</h1>
   <h2>Titular</h2>
-  <p>{PERSON["name"]}, profesional autónomo. NIF 07.979.288-J. Domicilio: {PERSON["address"][0]}, {PERSON["address"][1]}. Correo: {PERSON["email"]}. Teléfono: {PERSON["phone"]}.</p>
+  <p>{PERSON["name"]}. NIF 07.979.288-J. Domicilio: {PERSON["address"][0]}, {PERSON["address"][1]}. Correo: {PERSON["email"]}. Teléfono: {PERSON["phone"]}.</p>
   <h2>Qué es este sitio</h2>
   <p>gebrey.es presenta los proyectos que desarrolla su titular y enlaza a cada uno de ellos. Cada proyecto tiene su propio titular, condiciones y política de privacidad en su web.</p>
   <h2>Datos personales</h2>
@@ -282,14 +300,13 @@ def sitemap():
     return f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>'
 
 def llms():
-    lines = ["# GEBREY", "", "> Marca profesional de Francisco Gebrie Vicente, profesional autónomo en Santa Cruz de Tenerife (Canarias, España): software y web a medida.", "",
-             "Contacto: hola@gebrey.es · +34 822 276 190", "", "## Proyectos", ""]
+    lines = ["# GEBREY", "", f"> Escaparate de {COUNT} proyectos de software y web a medida, hechos en Santa Cruz de Tenerife (Canarias, España).", "",
+             f"Contacto: {PERSON['email']} · {PERSON['phone']} · {PERSON['address'][0]}, {PERSON['address'][1]}", "", "## Proyectos", ""]
     for p in PROJECTS:
         site = p["url"] if p["url"].startswith("http") else "https://gebrey.es/#web"
         app = f" App: {p['url2']}" if p.get("url2") else ""
         lines.append(f"- {p['name']} ({p['kicker'].lower()}): {p['one']} Sitio: {site}{app}")
-    lines += ["", "## Colaboraciones", "", "- Vianexo (https://vianexo.es) y Ocean's Magma (https://oceansmagma.es): plataformas de viajes de otros compañeros en cuyos desarrollos colabora.", "",
-              "## Páginas", "", "- [Inicio](https://gebrey.es/)", "- [Aviso legal y privacidad](https://gebrey.es/legal.html)"]
+    lines += ["", "## Páginas", "", "- [Inicio](https://gebrey.es/)", "- [Aviso legal y privacidad](https://gebrey.es/legal.html)"]
     return "\n".join(lines) + "\n"
 
 HTACCESS = """RewriteEngine On

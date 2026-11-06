@@ -1,7 +1,8 @@
 /* GEBREY — coreografía. El scroll manda: este archivo mide, y escribe en cada escena
    --e (entrada, 0→1 mientras sube) y --x (salida, 0→1 mientras la siguiente la cubre).
    Además recoge el wordmark en la cabecera, ajusta los nombres al ancho, inclina las
-   pantallas con el puntero y mantiene el raíl. Con movimiento reducido no mueve nada. */
+   pantallas con el puntero, mantiene el raíl y reproduce los vídeos de cada pantalla solo en su
+   escena. Con movimiento reducido no mueve nada. */
 (function () {
   const html = document.documentElement;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -83,6 +84,32 @@
     el.style.setProperty(name, v);
   }
 
+  /* ---- vídeos de las pantallas (video[data-src], sin extensión): las fuentes se añaden cuando la
+     escena está a dos pantallas, y solo se reproducen mientras su escena es la activa. Con
+     movimiento reducido o ahorro de datos se muestra el primer fotograma, sin reproducir. ---- */
+  const videos = scenes.map((s) => Array.from(s.querySelectorAll('video[data-src]')));
+  const still = reduce.matches || !!(navigator.connection && navigator.connection.saveData);
+  function loadVideos(i) {
+    videos[i].forEach((v) => {
+      if (v.dataset.ready) return;
+      v.dataset.ready = '1';
+      v.muted = true;
+      [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) => {
+        const src = document.createElement('source');
+        src.src = v.dataset.src + '.' + ext; src.type = type;
+        v.appendChild(src);
+      });
+      v.preload = still ? 'metadata' : 'auto';
+      v.load();
+    });
+  }
+  function playVideos(i) {
+    videos.forEach((vs, j) => vs.forEach((v) => {
+      if (j === i && !still) { const p = v.play(); if (p && p.catch) p.catch(() => {}); }
+      else if (!v.paused) v.pause();
+    }));
+  }
+
   let active = -1;
   function update() {
     raf = 0;
@@ -94,12 +121,14 @@
       const x = clamp((y - top) / h, 0, 1);
       setVar(s, '--e', e.toFixed(3));
       setVar(s, '--x', x.toFixed(3));
+      if (videos[i].length && y > top - vh * 2) loadVideos(i);
       const score = e * (1 - x);
       if (score > bestScore) { bestScore = score; best = i; }
     });
     if (best !== active) {
       active = best;
       rail.forEach((a, i) => { if (i === best - 1) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+      playVideos(best);
     }
     if (morph) {
       const p = easeInOut(clamp(y / morph.span, 0, 1));
