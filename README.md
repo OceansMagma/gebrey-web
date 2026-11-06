@@ -1,17 +1,18 @@
 # gebrey.es
 
-Web de GEBREY, la marca profesional de Francisco Gebrie Vicente.
+Web de GEBREY, la marca profesional de Francisco Gebrie Vicente: una sola página con sus proyectos (ViaConextaHub, Citras, TeideTravel y Web y hosting) más el aviso legal.
 
-- `src/` — fuentes (CSS, JS); `build.py` genera el sitio en `dist/`.
-- `site/` — sitio estático listo para publicar (lo que se copia a `public_html`).
-- `.github/workflows/deploy.yml` — cada push a `main` que toque `site/` sube los cambios por FTP (FTPS) a cPanel.
+## Estructura
 
-## Publicación automática
+- `src/` — fuentes: `assets/css/site.css`, `assets/js/reel.js` (coreografía de scroll), `assets/js/site.js` (tema y copiar correo), `assets/img/og.png`.
+- `build.py` — genera la página desde los datos de los proyectos (`PROJECTS`) y los textos de contacto (`PERSON`). Escribe `dist/` (para el servidor) y `preview/` (vista previa).
+- `site/` — copia de `dist/` que se publica. **Es lo que sube el workflow.**
+- `shot.js` — capturas con Playwright para revisar escritorio, móvil y tema claro.
 
-En GitHub → Settings → Secrets and variables → Actions, crear:
+## Cambiar algo
 
-- `FTP_HOST` = `net1002.webcloud.es`
-- `FTP_USER` = la cuenta FTP creada en cPanel con carpeta raíz `public_html` (p. ej. `deploy@gebrey.es`)
-- `FTP_PASSWORD` = su contraseña
+1. Edita `build.py` (textos, enlaces, teléfono) o `src/assets/…` (estilos, movimiento).
+2. `python3 build.py` y copia `dist/` a `site/`.
+3. Commit y push a `main`: el workflow **Publicar gebrey.es** sube `site/` por FTPS a `public_html`.
 
-Para regenerar el sitio: `python3 build.py` y copiar `dist/` a `site/`.
+Los secretos del workflow (`FTP_HOST`, `FTP_USER`, `FTP_PASSWORD`) están en Settings → Secrets and variables → Actions.

@@ -5,6 +5,11 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # www y gebrey.com redirigen a gebrey.es
 RewriteCond %{HTTP_HOST} !^gebrey\.es$ [NC]
 RewriteRule ^ https://gebrey.es%{REQUEST_URI} [L,R=301]
+# las antiguas páginas de proyecto van a su escena
+RedirectMatch 301 ^/proyectos/viaconextahub\.html$ /#viaconextahub
+RedirectMatch 301 ^/proyectos/citras\.html$ /#citras
+RedirectMatch 301 ^/proyectos/teidetravel\.html$ /#teidetravel
+RedirectMatch 301 ^/proyectos/web-hosting\.html$ /#web
 # tipos y caché
 AddType text/plain .txt
 <IfModule mod_expires.c>

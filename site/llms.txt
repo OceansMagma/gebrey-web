@@ -2,14 +2,14 @@
 
 > Marca profesional de Francisco Gebrie Vicente, profesional autónomo en Santa Cruz de Tenerife (Canarias, España): software y web a medida.
 
-Contacto: hola@gebrey.es · +34 663 82 29 55
+Contacto: hola@gebrey.es · +34 822 276 190
 
-## Proyectos propios
+## Proyectos
 
-- [ViaConextaHub](https://gebrey.es/proyectos/viaconextahub.html): Un solo portal para que cada agencia busque y reserve con sus mayoristas, usando sus propias claves. Sitio: https://viaconextahub.es
-- [Citras](https://gebrey.es/proyectos/citras.html): La pantalla desde la que un centro coordinador ve su flota, sus servicios y lo que está pasando ahora. Sitio: https://mbtenerife.es
-- [TeideTravel](https://gebrey.es/proyectos/teidetravel.html): Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin. Sitio: https://teidetravel.es
-- [Web y hosting](https://gebrey.es/proyectos/web-hosting.html): Tu web y tu portal de gestión, alojados y mantenidos por la misma persona que los construye.
+- ViaConextaHub (plataforma saas para agencias de viajes): Un solo buscador para que cada agencia reserve con todos sus mayoristas, usando sus propias claves. Sitio: https://viaconextahub.es
+- Citras (consola para centros coordinadores de transporte sanitario): Flota, servicios y lo que está pasando ahora, en una sola pantalla pensada para turnos largos. Sitio: https://mbtenerife.es
+- TeideTravel (agencia de viajes especializada en grupos): Viajes de grupo organizados desde Santa Cruz de Tenerife, de principio a fin. Sitio: https://teidetravel.es
+- Web y hosting (webs y portales a medida, alojados y mantenidos): Tu web o tu herramienta interna, en un servidor gestionado en España, con correo, copias y certificados. Sitio: https://gebrey.es/#web
 
 ## Colaboraciones
 
